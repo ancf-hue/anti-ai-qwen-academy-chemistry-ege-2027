@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anti-AI Qwen Academy | Chemistry EGE-2027</title>
+  <meta name="description" content="Free offline trainer and checklist for Chemistry EGE-2027 based on FIPI demo, codifier and specification: 34 tasks, 56 primary points, part 2 criteria, 25-day plan." />
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #070b18;
+      --card: rgba(18, 26, 51, 0.72);
+      --card-soft: rgba(255, 255, 255, 0.05);
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #e8ecff;
+      --muted: #9aa4c8;
+      --accent: #22d3ee;
+      --violet: #7c3aed;
+      --green: #22c55e;
+      --red: #ef4444;
+      --orange: #f59e0b;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124, 58, 237, 0.22), transparent 30%),
+        radial-gradient(circle at top right, rgba(34, 211, 238, 0.18), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+    .container { width: min(1120px, 92%); margin: 0 auto; }
+    header {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(7, 11, 24, 0.82);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 14px 0; flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo {
+      width: 46px; height: 46px; border-radius: 15px; object-fit: cover;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 12px 30px rgba(34, 211, 238, 0.18);
+      flex: 0 0 auto;
+    }
+    .brand strong { display: block; font-size: 16px; line-height: 1.2; }
+    .brand small { color: var(--muted); font-size: 12px; }
+    nav { display: flex; gap: 18px; flex-wrap: wrap; }
+    nav a { color: #cfd6ff; text-decoration: none; font-weight: 700; font-size: 14px; }
+    nav a:hover { color: white; }
+    .top-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-left: auto; }
+
+    .lang-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted); border-radius: 999px; padding: 8px 12px;
+      font-weight: 850; cursor: pointer; transition: 0.15s ease;
+      font-size: 13px;
+    }
+    .lang-btn:hover { background: rgba(255, 255, 255, 0.12); }
+    .lang-option { opacity: 0.65; }
+    .lang-option.active { opacity: 1; color: white; }
+    .lang-sep { opacity: 0.45; }
+
+    .timer-widget {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px; padding: 6px 8px;
+    }
+    .timer-widget select {
+      background: rgba(7, 11, 24, 0.55); color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px; padding: 6px 8px; font: inherit;
+      font-size: 12px; max-width: 190px;
+    }
+    #timerDisplay {
+      font-variant-numeric: tabular-nums; font-weight: 900;
+      min-width: 88px; text-align: center; color: white;
+    }
+    .timer-btn {
+      border: 0; background: rgba(255, 255, 255, 0.08); color: var(--text);
+      border-radius: 10px; padding: 6px 9px; cursor: pointer;
+      font-size: 14px; transition: 0.15s ease;
+    }
+    .timer-btn:hover { background: rgba(255, 255, 255, 0.14); }
+    .timer-widget.warning #timerDisplay { color: var(--orange); }
+    .timer-widget.danger #timerDisplay { color: var(--red); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+    .hero {
+      display: grid; grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px; padding: 48px 0 28px; align-items: start;
+    }
+    .badge {
+      display: inline-flex; align-items: center;
+      padding: 8px 12px; border-radius: 999px;
+      background: rgba(124, 58, 237, 0.18);
+      border: 1px solid rgba(124, 58, 237, 0.35);
+      color: #d8ccff; font-size: 13px; font-weight: 700;
+    }
+    h1 { font-size: clamp(34px, 5vw, 58px); line-height: 1.05; margin: 16px 0; }
+    h1 .accent { color: var(--accent); }
+    .lead { color: #b8c1e6; max-width: 72ch; font-size: 17px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+    .btn {
+      border: 0; border-radius: 14px; padding: 14px 18px;
+      font-weight: 850; cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      background: linear-gradient(135deg, var(--violet), var(--accent));
+      color: white; box-shadow: 0 12px 30px rgba(34, 211, 238, 0.18);
+      font-size: 15px;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #eaf0ff; box-shadow: none;
+    }
+    .btn.small { padding: 10px 14px; font-size: 14px; border-radius: 12px; }
+    .panel {
+      background: linear-gradient(180deg, rgba(124, 58, 237, 0.16), rgba(6, 182, 212, 0.10));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px; padding: 22px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    }
+    .panel h3 { margin: 0 0 14px; font-size: 20px; }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0; }
+    .metric {
+      background: rgba(7, 11, 24, 0.35); border-radius: 16px;
+      padding: 14px; border: 1px solid rgba(255, 255, 255, 0.08);
+      min-height: 82px;
+    }
+    .metric strong { display: block; font-size: 22px; color: white; margin-bottom: 4px; }
+    .metric span { color: var(--muted); font-size: 12px; }
+    progress {
+      width: 100%; height: 10px; border-radius: 999px;
+      overflow: hidden; appearance: none;
+      background: rgba(255, 255, 255, 0.1); border: none; margin-top: 10px;
+    }
+    progress::-webkit-progress-bar { background: rgba(255, 255, 255, 0.1); border-radius: 999px; }
+    progress::-webkit-progress-value { background: linear-gradient(90deg, var(--violet), var(--accent)); border-radius: 999px; }
+    progress::-moz-progress-bar { background: var(--accent); border-radius: 999px; }
+    .note { color: var(--muted); font-size: 13px; margin-top: 12px; }
+
+    section { padding: 28px 0; }
+    .section-head {
+      display: flex; justify-content: space-between;
+      align-items: end; gap: 16px; margin-bottom: 18px; flex-wrap: wrap;
+    }
+    h2 { font-size: clamp(26px, 3vw, 36px); margin: 0; line-height: 1.15; }
+    .sub { color: var(--muted); margin: 6px 0 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)); gap: 16px; }
+    .card {
+      background: var(--card); border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 22px; padding: 20px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    }
+    .card h3 { margin: 0 0 10px; font-size: 20px; }
+    .card p { color: #b8c1e6; margin: 0 0 16px; }
+    .warn-card { border-color: rgba(245, 158, 11, 0.35); background: linear-gradient(180deg, rgba(245, 158, 11, 0.10), rgba(18, 26, 51, 0.72)); }
+    .danger-card { border-color: rgba(239, 68, 68, 0.35); background: linear-gradient(180deg, rgba(239, 68, 68, 0.10), rgba(18, 26, 51, 0.72)); }
+    .success-card { border-color: rgba(34, 197, 94, 0.35); background: linear-gradient(180deg, rgba(34, 197, 94, 0.10), rgba(18, 26, 51, 0.72)); }
+    .tag {
+      display: inline-block; padding: 6px 10px; border-radius: 999px;
+      font-size: 12px; font-weight: 850; margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #dbe3ff;
+    }
+    .tag.red { background: rgba(239, 68, 68, 0.14); border-color: rgba(239, 68, 68, 0.35); color: #ffd7d7; }
+    .tag.green { background: rgba(34, 197, 94, 0.14); border-color: rgba(34, 197, 94, 0.35); color: #d7ffe6; }
+    .tag.orange { background: rgba(245, 158, 11, 0.14); border-color: rgba(245, 158, 11, 0.35); color: #fff0cc; }
+    .mini-list { margin: 0; padding-left: 18px; color: #c8d2f5; }
+    .mini-list li { margin: 7px 0; }
+
+    .question-block {
+      background: var(--card); border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 24px; padding: 24px; margin-bottom: 26px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+    }
+    .q-number {
+      display: inline-block; padding: 6px 12px; border-radius: 999px;
+      background: rgba(124, 58, 237, 0.22);
+      border: 1px solid rgba(124, 58, 237, 0.45);
+      color: #d8ccff; font-size: 13px; font-weight: 850; margin-bottom: 14px;
+    }
+    .q-part { margin-bottom: 18px; }
+    .q-part-label {
+      display: inline-block; font-size: 12px; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      color: var(--accent); margin-bottom: 8px;
+    }
+    .q-text {
+      font-size: 17px; font-weight: 700; margin: 0;
+      line-height: 1.5; color: #eaf0ff; white-space: pre-wrap;
+    }
+    .q-info {
+      background: rgba(124, 58, 237, 0.10);
+      border-left: 4px solid var(--violet);
+      border-radius: 0 14px 14px 0;
+      padding: 16px 18px; margin: 18px 0;
+      color: #dbe3ff; font-size: 15px; line-height: 1.55; white-space: pre-wrap;
+    }
+    .q-info strong { color: #ffffff; }
+    .q-trainer-label {
+      display: inline-block; font-size: 12px; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      color: var(--green); margin-bottom: 10px;
+    }
+    .answer-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .answer-input {
+      flex: 1; min-width: 220px;
+      background: rgba(7, 11, 24, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text); border-radius: 14px;
+      padding: 14px 16px; font: inherit; font-size: 16px;
+    }
+    .answer-input:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+    }
+    .answer-input.correct { border-color: rgba(34, 197, 94, 0.65); background: rgba(34, 197, 94, 0.12); }
+    .answer-input.wrong { border-color: rgba(239, 68, 68, 0.65); background: rgba(239, 68, 68, 0.12); }
+    .answer-input.partial { border-color: rgba(245, 158, 11, 0.65); background: rgba(245, 158, 11, 0.12); }
+    .options { display: grid; gap: 10px; }
+    .option {
+      text-align: left; width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text); border-radius: 14px;
+      padding: 14px 16px; cursor: pointer; font-size: 15px;
+      transition: 0.15s ease; white-space: pre-wrap;
+    }
+    .option:hover:not(:disabled) { background: rgba(255, 255, 255, 0.1); }
+    .option.selected { background: rgba(34, 211, 238, 0.16); border-color: rgba(34, 211, 238, 0.55); }
+    .option:disabled { cursor: default; }
+    .result-block { margin-top: 14px; padding: 14px 16px; border-radius: 14px; }
+    .result-block.correct { background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.35); }
+    .result-block.wrong { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); }
+    .result-block.partial { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); }
+    .result-block.neutral { background: rgba(34, 211, 238, 0.12); border: 1px solid rgba(34, 211, 238, 0.35); }
+    .verdict { font-size: 17px; font-weight: 900; margin-bottom: 8px; }
+    .verdict.correct { color: #22c55e; }
+    .verdict.wrong { color: #ef4444; }
+    .verdict.partial { color: var(--orange); }
+    .verdict.neutral { color: var(--accent); }
+    .result-row { margin: 6px 0; color: #d7e6ff; font-size: 15px; }
+    .result-row strong { color: #ffffff; }
+    .source-row {
+      margin-top: 10px; padding-top: 10px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.18);
+      color: var(--muted); font-size: 13px;
+    }
+    .source-row strong { color: #dbe3ff; }
+    .summary {
+      background: linear-gradient(180deg, rgba(34, 197, 94, 0.14), rgba(18, 26, 51, 0.72));
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      border-radius: 24px; padding: 24px; text-align: center; margin-top: 24px;
+    }
+    .summary .score { font-size: 48px; font-weight: 950; color: #fff; }
+    .reset-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; justify-content: flex-end; }
+
+    .checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .check-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: var(--card-soft); border: 1px solid var(--border);
+      border-radius: 16px; padding: 14px; transition: 0.15s ease;
+    }
+    .check-item input { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--accent); flex: 0 0 auto; }
+    .check-item label { cursor: pointer; color: #dbe3ff; }
+    .check-item.done { opacity: 0.72; background: rgba(34, 211, 238, 0.08); border-color: rgba(34, 211, 238, 0.25); }
+    .check-item.done label { text-decoration: line-through; color: #aab5dc; }
+
+    .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .day {
+      background: var(--card-soft); border: 1px solid var(--border);
+      border-radius: 18px; padding: 16px; min-height: 112px;
+    }
+    .day b { display: block; color: var(--accent); margin-bottom: 6px; font-size: 14px; letter-spacing: 0.2px; }
+    .day.critical { border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.08); }
+
+    .support-card {
+      background: linear-gradient(180deg, rgba(124, 58, 237, 0.18), rgba(34, 211, 238, 0.10));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 24px; padding: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    }
+    .support-card h2 { margin-bottom: 10px; }
+    .support-card p { margin: 10px 0; color: #dbe3ff; }
+    .phone { color: white; font-weight: 900; text-decoration: none; border-bottom: 1px dashed rgba(255, 255, 255, 0.45); }
+    .phone:hover { color: var(--accent); }
+    .copy-status { margin-left: 8px; color: var(--green); font-weight: 850; }
+    .support-card a { color: var(--accent); font-weight: 800; text-decoration: none; }
+    .support-card a:hover { text-decoration: underline; }
+
+    footer {
+      padding: 30px 0 50px; color: var(--muted);
+      text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 30px;
+    }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: 1fr; }
+      nav { gap: 12px; }
+      .top-controls { width: 100%; justify-content: space-between; }
+      .timer-widget select { max-width: 150px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <img src="favicon.ico" class="brand-logo" alt="Anti-AI Qwen Academy Logo" onerror="this.style.display='none'" />
+        <div>
+          <strong data-i18n="brandTitle">Анти-ИИ Квен Академия</strong>
+          <small data-i18n="brandSub">Химия ЕГЭ-2027 · 34 задания · 56 баллов</small>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#structure" data-i18n="navStructure">Структура</a>
+        <a href="#changes" data-i18n="navChanges">Изменения 2027</a>
+        <a href="#criteria" data-i18n="navCriteria">Критерии</a>
+        <a href="#trainer" data-i18n="navTrainer">Тренажёр</a>
+        <a href="#checklist" data-i18n="navChecklist">Чек-лист</a>
+        <a href="#plan" data-i18n="navPlan">25 дней</a>
+        <a href="#support" data-i18n="navSupport">Поддержать</a>
+      </nav>
+
+      <div class="top-controls">
+        <button id="langToggle" class="lang-btn" type="button" aria-label="Switch Language">
+          <span class="lang-option active" data-lang="ru">RU</span>
+          <span class="lang-sep">/</span>
+          <span class="lang-option" data-lang="en">EN</span>
+        </button>
+
+        <div class="timer-widget" id="timerWidget" role="group" aria-label="Exam Timer">
+          <select id="timerPreset" aria-label="Timer Preset"></select>
+          <span id="timerDisplay">03:30:00</span>
+          <button id="timerToggle" class="timer-btn" type="button">▶</button>
+          <button id="timerReset" class="timer-btn" type="button">↺</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <span class="badge" data-i18n="badge">Проект ФИПИ 2027 · 34 задания · 56 первичных баллов · 210 минут</span>
+        <h1 data-i18n="h1">Поможем сдать <span class="accent">химию</span> правильно</h1>
+        <p class="lead" data-i18n="lead"></p>
+
+        <div class="actions">
+          <button class="btn" onclick="scrollToId('trainer')" data-i18n="actionTrainer">Пройти тренажёр</button>
+          <button class="btn secondary" onclick="scrollToId('structure')" data-i18n="actionStructure">Структура экзамена</button>
+          <button class="btn secondary" onclick="scrollToId('criteria')" data-i18n="actionCriteria">Критерии части 2</button>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <h3 data-i18n="quickStats">Быстрая статистика</h3>
+
+        <div class="metrics">
+          <div class="metric">
+            <strong id="answeredCount">0/34</strong>
+            <span data-i18n="metricBlocks">блоков пройдено</span>
+          </div>
+          <div class="metric">
+            <strong id="correctCount">0/28</strong>
+            <span data-i18n="metricCorrect">верных в части 1</span>
+          </div>
+          <div class="metric">
+            <strong id="checklistProgress">0%</strong>
+            <span data-i18n="metricChecklist">чек-лист</span>
+          </div>
+        </div>
+
+        <progress id="overall" value="0" max="100"></progress>
+        <p class="note" data-i18n="noteReset"></p>
+      </aside>
+    </section>
+
+    <section id="structure">
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="structureTitle">Структура ЕГЭ по химии</h2>
+          <p class="sub" data-i18n="structureSub"></p>
+        </div>
+      </div>
+      <div class="grid" id="structureGrid"></div>
+    </section>
+
+    <section id="changes">
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="changesTitle">Что обязательно учесть в ЕГЭ-2027</h2>
+          <p class="sub" data-i18n="changesSub"></p>
+        </div>
+      </div>
+      <div class="grid" id="changesGrid"></div>
+    </section>
+
+    <section id="criteria">
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="criteriaTitle">Критерии части 2: на что смотреть</h2>
+          <p class="sub" data-i18n="criteriaSub"></p>
+        </div>
+      </div>
+      <div class="grid" id="criteriaGrid"></div>
+    </section>
+
+    <section id="trainer">
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="trainerTitle">Тренажёр: 34 задания ЕГЭ-2027</h2>
+          <p class="sub" data-i18n="trainerSub"></p>
+        </div>
+      </div>
+
+      <p class="note" data-i18n="trainerNote"></p>
+
+      <div class="reset-bar">
+        <button class="btn secondary small" onclick="resetAll()" data-i18n="resetAll">Сбросить все ответы</button>
+      </div>
+
+      <div id="quizContainer"></div>
+      <div id="summaryBox"></div>
+    </section>
+
+    <section id="checklist">
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="checklistTitle">Чек-лист подготовки к ЕГЭ-2027</h2>
+          <p class="sub" data-i18n="checklistSub"></p>
+        </div>
+      </div>
+      <ul class="checklist" id="checklistUl"></ul>
+    </section>
+
+    <section id="plan">
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="planTitle">Полный курс 25 дней</h2>
+          <p class="sub" data-i18n="planSub"></p>
+        </div>
+      </div>
+      <div class="plan-grid" id="planGrid"></div>
+    </section>
+
+    <section id="support">
+      <div class="support-card">
+        <h2 data-i18n="supportTitle">🤝 ПОДДЕРЖАТЬ ПРОЕКТ 💙</h2>
+        <p data-i18n="supportP1"></p>
+        <p data-i18n="supportP2"></p>
+        <p>
+          <span data-i18n="supportPhoneLabel"></span>
+          <a class="phone" href="tel:89202275676">8-920-227-56-76</a>
+          <button class="btn small" onclick="copyPhone()" data-i18n="copyPhone">📋 Копировать номер</button>
+          <span id="copyStatus" class="copy-status" aria-live="polite"></span>
+        </p>
+        <p data-i18n="supportP3"></p>
+        <p data-i18n="supportP4"></p>
+        <p>🌟 👉 <a href="https://ancf-hue.github.io/" target="_blank" rel="noopener noreferrer" data-i18n="supportCatalog"></a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" data-i18n="footer"></div>
+  </footer>
+
+  <script>
+    const TOTAL_TASKS = 34;
+    const PART1_TASKS = 28;
+    const TOTAL_MAX_PRIMARY = 56;
+
+    const WEIGHTS = {
+      6: 2, 7: 2, 8: 2, 14: 2, 15: 2, 22: 2, 23: 2, 24: 2,
+      29: 2, 30: 2, 31: 4, 32: 5, 33: 3, 34: 4
+    };
+
+    // ============================================================
+    // ПЕРЕВОДЫ ИНТЕРФЕЙСА
+    // ============================================================
+    const I18N = {
+      ru: {
+        docTitle: "Анти-ИИ Квен Академия | Химия ЕГЭ-2027",
+        metaDesc: "Бесплатный офлайн-тренажёр и чек-лист для подготовки к ЕГЭ по химии 2027.",
+        brandTitle: "Анти-ИИ Квен Академия",
+        brandSub: "Химия ЕГЭ-2027 · 34 задания · 56 баллов",
+        navStructure: "Структура",
+        navChanges: "Изменения 2027",
+        navCriteria: "Критерии",
+        navTrainer: "Тренажёр",
+        navChecklist: "Чек-лист",
+        navPlan: "25 дней",
+        navSupport: "Поддержать",
+        badge: "Проект ФИПИ 2027 · 34 задания · 56 первичных баллов · 210 минут",
+        h1: 'Поможем сдать <span class="accent">химию</span> правильно',
+        lead: "Тренажёр составлен по проекту демоверсии, спецификации и кодификатора ЕГЭ-2027 по химии. Часть 1 — 28 заданий с кратким ответом: 18 базового уровня и 10 повышенного. Часть 2 — 6 заданий высокого уровня сложности с развёрнутым ответом. Максимум — 56 первичных баллов, время — 210 минут. Задания 29–34 проверяются экспертами, в тренажёре доступны как честная самопроверка по критериям ФИПИ.",
+        actionTrainer: "Пройти тренажёр",
+        actionStructure: "Структура экзамена",
+        actionCriteria: "Критерии части 2",
+        quickStats: "Быстрая статистика",
+        metricBlocks: "блоков пройдено",
+        metricCorrect: "верных в части 1",
+        metricChecklist: "чек-лист",
+        noteReset: "Ответы и чек-лист сбрасываются при открытии страницы.",
+        structureTitle: "Структура ЕГЭ по химии",
+        structureSub: "34 задания: 28 с кратким ответом, 6 с развёрнутым. 56 первичных баллов, 210 минут.",
+        changesTitle: "Что обязательно учесть в ЕГЭ-2027",
+        changesSub: "По проекту спецификации: изменения структуры и содержания КИМ отсутствуют.",
+        criteriaTitle: "Критерии части 2: на что смотреть",
+        criteriaSub: "Задания 29–34 проверяются экспертами. Важна полнота, обоснованность и корректность уравнений.",
+        trainerTitle: "Тренажёр: 34 задания ЕГЭ-2027",
+        trainerSub: "Часть 1 — вводи ответ. Часть 2 — самопроверка по критериям. Автоматически считаются только задания 1–28.",
+        trainerNote: "Сверено по проекту демоверсии ФИПИ ЕГЭ-2027. Для заданий 19, 20, 24, 25, 28 использован первый вариант из приведённых в демоверсии. Для заданий 6, 7, 8, 14, 15, 22–24 действует правило частичного балла (1 из 2) при одной неверной позиции — как в спецификации ФИПИ. Задания 29–34 — самопроверка по критериям ФИПИ.",
+        resetAll: "Сбросить все ответы",
+        checklistTitle: "Чек-лист подготовки к ЕГЭ-2027",
+        checklistSub: "Отмечай выполненные пункты — при новом открытии страницы чек-лист сбросится.",
+        planTitle: "Полный курс 25 дней",
+        planSub: "Маршрут подготовки по структуре ЕГЭ-2027.",
+        supportTitle: "🤝 ПОДДЕРЖАТЬ ПРОЕКТ 💙",
+        supportP1: "<strong>Приложение бесплатное. Было и останется.</strong>",
+        supportP2: "Все приложения бесплатны и без рекламы. Ваша помощь помогает развитию офлайн-безопасности и образования.",
+        supportPhoneLabel: "📱 ПЕРЕВОД ПО НОМЕРУ ТЕЛЕФОНА:",
+        copyPhone: "📋 Копировать номер",
+        copied: "✓ Скопировано",
+        supportP3: "✅ Деньги придут мгновенно. Без комиссии. Безопасно.",
+        supportP4: "❤️ Спасибо за поддержку!",
+        supportCatalog: "Каталог бесплатных офлайн-приложений ANTI-AI SHIELD",
+        footer: "Анти-ИИ Квен Академия • Бесплатный HTML-проект • Химия ЕГЭ-2027 • Проект ФИПИ",
+        tagPart1: "Часть 1",
+        tagPart2: "Часть 2",
+        qLabel1: "1. Вопрос",
+        qLabel2: "2. Что проверяет задание и как думать",
+        qLabel3: "Тренажёр — введи ответ",
+        qLabelEssay: "Самопроверка по критериям",
+        checkBtn: "Проверить",
+        enterAnswer: "Введите ответ.",
+        correct: "✅ Правильно!",
+        partial: "⚠️ Частично верно",
+        wrong: "❌ Неправильно.",
+        yourAnswer: "Твой ответ:",
+        correctAnswer: "Правильный ответ:",
+        pointsLabel: "Баллов:",
+        explanationLabel: "Пояснение:",
+        sourceLabel: "Источник:",
+        selfCheckAccepted: "📝 Самопроверка принята",
+        yourStatus: "Твой статус:",
+        selfCheckPoints: "Баллов по самопроверке:",
+        guideline: "Ориентир:",
+        passedBlocks: "Пройдено блоков:",
+        of: "из",
+        correctInPart1: "Верных в части 1:",
+        primaryPart1: "Первичных баллов за часть 1:",
+        selfCheckPart2: "Самопроверка части 2:",
+        totalWithSelf: "Итого с самопроверкой:",
+        answerAllBlocks: "Ответь на все блоки, чтобы увидеть итог.",
+        correctPart1Pct: "Правильность части 1:",
+        totalPrimary: "Итого первичных с самопроверкой:",
+        noteSelfCheck: "Часть 2 оценивается экспертами. Это твоя честная самооценка по критериям ФИПИ.",
+        verdictExcellent: "Отличный результат! Часть 1 практически идеальна.",
+        verdictGood: "Хорошо, но разбери ошибки по части 1.",
+        verdictNeed: "Нужно плотно проработать базу: строение атома, свойства веществ, ОВР, расчётные задачи.",
+        confirmReset: "Сбросить все ответы и чек-лист?",
+        copyError: "Не удалось скопировать автоматически. Номер: ",
+        timerExam: "Химия ЕГЭ — 210 мин",
+        timerPractice: "Тренировка — 60 мин",
+        timerSprint: "Спринт — 30 мин",
+        timeUp: "Время вышло!"
+      },
+      en: {
+        docTitle: "Anti-AI Qwen Academy | Chemistry EGE-2027",
+        metaDesc: "Free offline trainer and checklist for Chemistry EGE-2027 preparation.",
+        brandTitle: "Anti-AI Qwen Academy",
+        brandSub: "Chemistry EGE-2027 · 34 tasks · 56 points",
+        navStructure: "Structure",
+        navChanges: "Changes 2027",
+        navCriteria: "Criteria",
+        navTrainer: "Trainer",
+        navChecklist: "Checklist",
+        navPlan: "25 Days",
+        navSupport: "Support",
+        badge: "FIPI Demo 2027 · 34 tasks · 56 primary points · 210 minutes",
+        h1: 'Help you pass <span class="accent">Chemistry EGE</span> correctly',
+        lead: "The trainer is built on the FIPI demo project, specification and codifier of EGE-2027 in Chemistry. Part 1 — 28 short-answer tasks: 18 basic and 10 advanced. Part 2 — 6 high-level tasks with extended answers. Maximum — 56 primary points, time — 210 minutes. Tasks 29–34 are checked by experts; in the trainer they are honest self-checks based on FIPI criteria.",
+        actionTrainer: "Take the trainer",
+        actionStructure: "Exam structure",
+        actionCriteria: "Part 2 criteria",
+        quickStats: "Quick stats",
+        metricBlocks: "blocks completed",
+        metricCorrect: "correct in Part 1",
+        metricChecklist: "checklist",
+        noteReset: "Answers and checklist reset when the page is opened.",
+        structureTitle: "Chemistry EGE structure",
+        structureSub: "34 tasks: 28 short-answer, 6 extended-answer. 56 primary points, 210 minutes.",
+        changesTitle: "What to consider in EGE-2027",
+        changesSub: "According to the specification project: no changes in the structure and content of KIM.",
+        criteriaTitle: "Part 2 criteria: what to look for",
+        criteriaSub: "Tasks 29–34 are checked by experts. Completeness, reasoning and correctness of equations matter.",
+        trainerTitle: "Trainer: 34 tasks of EGE-2027",
+        trainerSub: "Part 1 — enter the answer. Part 2 — self-check based on criteria. Only tasks 1–28 are scored automatically.",
+        trainerNote: "Verified against the FIPI demo project of EGE-2027. For tasks 19, 20, 24, 25, 28 the first variant from the demo is used. For tasks 6, 7, 8, 14, 15, 22–24 the partial-credit rule applies (1 of 2) when one position is wrong — as in the FIPI specification. Tasks 29–34 — self-check based on FIPI criteria.",
+        resetAll: "Reset all answers",
+        checklistTitle: "Preparation checklist for EGE-2027",
+        checklistSub: "Tick completed items — the checklist resets when the page is opened again.",
+        planTitle: "Full 25-day course",
+        planSub: "Preparation route according to the EGE-2027 structure.",
+        supportTitle: "🤝 SUPPORT THE PROJECT 💙",
+        supportP1: "<strong>The app is free. It was and will remain free.</strong>",
+        supportP2: "All apps are free and ad-free. Your help supports offline security and education.",
+        supportPhoneLabel: "📱 TRANSFER BY PHONE NUMBER:",
+        copyPhone: "📋 Copy number",
+        copied: "✓ Copied",
+        supportP3: "✅ Money arrives instantly. No commission. Safe.",
+        supportP4: "❤️ Thanks for your support!",
+        supportCatalog: "Catalog of free offline ANTI-AI SHIELD apps",
+        footer: "Anti-AI Qwen Academy • Free HTML Project • Chemistry EGE-2027 • FIPI Demo",
+        tagPart1: "Part 1",
+        tagPart2: "Part 2",
+        qLabel1: "1. Question",
+        qLabel2: "2. What the task checks and how to think",
+        qLabel3: "Trainer — enter your answer",
+        qLabelEssay: "Self-check based on criteria",
+        checkBtn: "Check",
+        enterAnswer: "Enter the answer.",
+        correct: "✅ Correct!",
+        partial: "⚠️ Partially correct",
+        wrong: "❌ Incorrect.",
+        yourAnswer: "Your answer:",
+        correctAnswer: "Correct answer:",
+        pointsLabel: "Points:",
+        explanationLabel: "Explanation:",
+        sourceLabel: "Source:",
+        selfCheckAccepted: "📝 Self-check accepted",
+        yourStatus: "Your status:",
+        selfCheckPoints: "Self-check points:",
+        guideline: "Guideline:",
+        passedBlocks: "Blocks completed:",
+        of: "of",
+        correctInPart1: "Correct in Part 1:",
+        primaryPart1: "Primary points for Part 1:",
+        selfCheckPart2: "Self-check of Part 2:",
+        totalWithSelf: "Total with self-check:",
+        answerAllBlocks: "Answer all blocks to see the result.",
+        correctPart1Pct: "Part 1 correctness:",
+        totalPrimary: "Total primary with self-check:",
+        noteSelfCheck: "Part 2 is graded by experts. This is your honest self-assessment based on FIPI criteria.",
+        verdictExcellent: "Excellent result! Part 1 is nearly perfect.",
+        verdictGood: "Good, but review the mistakes in Part 1.",
+        verdictNeed: "You need to work through the basics: atomic structure, properties, redox, calculations.",
+        confirmReset: "Reset all answers and checklist?",
+        copyError: "Could not copy automatically. Number: ",
+        timerExam: "Chemistry EGE — 210 min",
+        timerPractice: "Practice — 60 min",
+        timerSprint: "Sprint — 30 min",
+        timeUp: "Time is up!"
+      }
+    };
+
+    let currentLang = "ru";
+
+    function loc(key) {
+      return (I18N[currentLang] && I18N[currentLang][key]) || "";
+    }
+
+    // ============================================================
+    // СТАТИЧЕСКИЙ КОНТЕНТ ПО УРОВНЯМ ЯЗЫКА
+    // ============================================================
+    const STRUCTURE_CARDS = {
+      ru: [
+        { tag: "Часть 1", cls: "warn-card", tagCls: "orange", title: "28 заданий с кратким ответом", list: [
+          "1 балл: задания 1–5, 9–13, 16–21, 25–28.",
+          "2 балла: задания 6–8, 14, 15, 22–24.",
+          "Базовый уровень: 18 заданий (1–5, 10, 11, 13, 17–21, 23, 25–28).",
+          "Повышенный уровень: 10 заданий (6–9, 12, 14–16, 22, 24).",
+          "Максимум за часть 1 — 36 баллов.",
+          "Порядок цифр не важен в заданиях 1, 3, 4, 11, 12, 13, 18."
+        ]},
+        { tag: "Часть 2", cls: "warn-card", tagCls: "orange", title: "6 заданий с развёрнутым ответом", list: [
+          "Задания 29, 30 — по 2 балла.",
+          "Задание 31 — 4 балла.",
+          "Задание 32 — 5 баллов.",
+          "Задание 33 — 3 балла.",
+          "Задание 34 — 4 балла.",
+          "Максимум за часть 2 — 20 баллов."
+        ]},
+        { tag: "Итого", cls: "success-card", tagCls: "green", title: "34 задания = 56 баллов", list: [
+          "Часть 1 — 36 баллов.",
+          "Часть 2 — 20 баллов.",
+          "Приложены: Периодическая система Д.И. Менделеева, таблица растворимости, электрохимический ряд напряжений металлов.",
+          "Разрешён непрограммируемый калькулятор."
+        ]},
+        { tag: "Анти-ИИ", cls: "", tagCls: "", text: "В химии ответ без уравнений и обоснования не даёт баллов части 2. ИИ часто «фантазирует» продукты реакций. Проверяй условия протекания (среда, температура, катализатор), степени окисления, сохранение массы и заряда." }
+      ],
+      en: [
+        { tag: "Part 1", cls: "warn-card", tagCls: "orange", title: "28 short-answer tasks", list: [
+          "1 point: tasks 1–5, 9–13, 16–21, 25–28.",
+          "2 points: tasks 6–8, 14, 15, 22–24.",
+          "Basic level: 18 tasks (1–5, 10, 11, 13, 17–21, 23, 25–28).",
+          "Advanced level: 10 tasks (6–9, 12, 14–16, 22, 24).",
+          "Maximum for Part 1 — 36 points.",
+          "Order of digits does not matter in tasks 1, 3, 4, 11, 12, 13, 18."
+        ]},
+        { tag: "Part 2", cls: "warn-card", tagCls: "orange", title: "6 extended-answer tasks", list: [
+          "Tasks 29, 30 — 2 points each.",
+          "Task 31 — 4 points.",
+          "Task 32 — 5 points.",
+          "Task 33 — 3 points.",
+          "Task 34 — 4 points.",
+          "Maximum for Part 2 — 20 points."
+        ]},
+        { tag: "Total", cls: "success-card", tagCls: "green", title: "34 tasks = 56 points", list: [
+          "Part 1 — 36 points.",
+          "Part 2 — 20 points.",
+          "Attached: Periodic Table, solubility table, electrochemical series of metals.",
+          "Non-programmable calculator is allowed."
+        ]},
+        { tag: "Anti-AI", cls: "", tagCls: "", text: "In chemistry, an answer without equations and reasoning earns no points in Part 2. AI often 'hallucinates' reaction products. Check the reaction conditions (medium, temperature, catalyst), oxidation states, conservation of mass and charge." }
+      ]
+    };
+
+    const CHANGES_CARDS = {
+      ru: [
+        { tag: "Структура", cls: "success-card", tagCls: "green", title: "Изменений нет", text: "Количество заданий (34), максимальный первичный балл (56) и время (210 минут) сохранены по сравнению с 2026 годом." },
+        { tag: "Акцент", cls: "warn-card", tagCls: "orange", title: "Системность знаний", text: "КИМ нацелены на проверку системы знаний: ведущие понятия о веществе и реакции, основные законы, генезис веществ, причинность явлений." },
+        { tag: "Три уровня", cls: "danger-card", tagCls: "red", title: "Б / П / В", text: "Базовый: 18 заданий, 19 баллов. Повышенный: 10 заданий, 17 баллов. Высокий: 6 заданий, 20 баллов." },
+        { tag: "Оборудование", cls: "warn-card", tagCls: "orange", title: "Справочные материалы", text: "Обязательно приложены: Периодическая система, таблица растворимости, электрохимический ряд напряжений. Разрешён непрограммируемый калькулятор." }
+      ],
+      en: [
+        { tag: "Structure", cls: "success-card", tagCls: "green", title: "No changes", text: "Number of tasks (34), maximum primary score (56) and time (210 minutes) remain the same as in 2026." },
+        { tag: "Focus", cls: "warn-card", tagCls: "orange", title: "Systematic knowledge", text: "KIMs aim to test the system of knowledge: core concepts of matter and reaction, fundamental laws, genesis of substances, causality of phenomena." },
+        { tag: "Three levels", cls: "danger-card", tagCls: "red", title: "B / A / H", text: "Basic: 18 tasks, 19 points. Advanced: 10 tasks, 17 points. High: 6 tasks, 20 points." },
+        { tag: "Equipment", cls: "warn-card", tagCls: "orange", title: "Reference materials", text: "Attached: Periodic Table, solubility table, electrochemical series. Non-programmable calculator is allowed." }
+      ]
+    };
+
+    const CRITERIA_CARDS = {
+      ru: [
+        { tag: "Задание 29", cls: "", tagCls: "", title: "ОВР — 2 балла", list: [
+          "Выбраны окислитель и восстановитель из перечня.",
+          "Записано уравнение ОВР.",
+          "Составлен электронный баланс.",
+          "Указаны окислитель и восстановитель.",
+          "Правильно записан один элемент — 1 балл."
+        ]},
+        { tag: "Задание 30", cls: "", tagCls: "", title: "Ионный обмен — 2 балла", list: [
+          "Выбраны вещества, дающие слабый электролит без газа.",
+          "Записано молекулярное уравнение.",
+          "Записаны полное и сокращённое ионные уравнения.",
+          "Правильно записан один элемент — 1 балл."
+        ]},
+        { tag: "Задание 31", cls: "", tagCls: "", title: "Цепочка реакций — 4 балла", list: [
+          "Четыре молекулярных уравнения описанных реакций.",
+          "За каждое верно записанное уравнение — 1 балл.",
+          "Ошибка в продуктах — уравнение не зачитывается."
+        ]},
+        { tag: "Задание 32", cls: "danger-card", tagCls: "red", title: "Цепочка органики — 5 баллов", list: [
+          "Пять уравнений реакций с участием органических веществ.",
+          "Обязательно структурные формулы органических веществ.",
+          "Каждое верное уравнение — 1 балл."
+        ]},
+        { tag: "Задание 33", cls: "warn-card", tagCls: "orange", title: "Формула вещества — 3 балла", list: [
+          "Вычисления и молекулярная формула.",
+          "Структурная формула, отражающая порядок связи.",
+          "Уравнение реакции с использованием структурной формулы.",
+          "Каждый верный элемент — 1 балл."
+        ]},
+        { tag: "Задание 34", cls: "warn-card", tagCls: "orange", title: "Расчётная задача — 4 балла", list: [
+          "Уравнения реакций по условию.",
+          "Расчёты с использованием необходимых физических величин.",
+          "Логически обоснованная взаимосвязь величин.",
+          "Правильный ответ с единицами измерения."
+        ]},
+        { tag: "Ответ без решения", cls: "danger-card", tagCls: "red", title: "0 баллов", text: "Правильный ответ при отсутствии обоснованного решения в части 2 оценивается 0 баллов." },
+        { tag: "Третий эксперт", cls: "warn-card", tagCls: "orange", title: "Существенные расхождения", text: "Расхождение в 2 и более балла по любому заданию 29–34 — назначается третья проверка." }
+      ],
+      en: [
+        { tag: "Task 29", cls: "", tagCls: "", title: "Redox — 2 points", list: [
+          "Oxidiser and reducer chosen from the list.",
+          "Redox equation written.",
+          "Electron balance composed.",
+          "Oxidiser and reducer indicated.",
+          "One correct element — 1 point."
+        ]},
+        { tag: "Task 30", cls: "", tagCls: "", title: "Ion exchange — 2 points", list: [
+          "Chosen substances produce a weak electrolyte without gas.",
+          "Molecular equation written.",
+          "Full and net ionic equations written.",
+          "One correct element — 1 point."
+        ]},
+        { tag: "Task 31", cls: "", tagCls: "", title: "Reaction chain — 4 points", list: [
+          "Four molecular equations for the described reactions.",
+          "One correct equation — 1 point.",
+          "Error in products — the equation is not counted."
+        ]},
+        { tag: "Task 32", cls: "danger-card", tagCls: "red", title: "Organic chain — 5 points", list: [
+          "Five reaction equations with organic substances.",
+          "Structural formulas of organic substances required.",
+          "One correct equation — 1 point."
+        ]},
+        { tag: "Task 33", cls: "warn-card", tagCls: "orange", title: "Substance formula — 3 points", list: [
+          "Calculations and molecular formula.",
+          "Structural formula showing bonding order.",
+          "Reaction equation using the structural formula.",
+          "One correct element — 1 point."
+        ]},
+        { tag: "Task 34", cls: "warn-card", tagCls: "orange", title: "Calculation task — 4 points", list: [
+          "Reaction equations per condition.",
+          "Calculations using required physical quantities.",
+          "Logically justified relationship of quantities.",
+          "Correct answer with units."
+        ]},
+        { tag: "Answer without solution", cls: "danger-card", tagCls: "red", title: "0 points", text: "A correct answer without a reasoned solution in Part 2 is scored 0." },
+        { tag: "Third expert", cls: "warn-card", tagCls: "orange", title: "Substantial discrepancies", text: "A 2-point or larger discrepancy on any task 29–34 triggers a third check." }
+      ]
+    };
+
+    // ============================================================
+    // ТРЕНАЖЁР — ТОЛЬКО АВТОЧАСТЬ (1–28). ЭССЕ — отдельно ниже.
+    // ============================================================
+    const AUTO_QUIZ = [
+      { n: 1, type: "auto", answerType: "digits", answer: "12", orderIndependent: true,
+        ru: { text: "Для выполнения заданий 1–3 используйте ряд химических элементов:\n1) O  2) F  3) Al  4) Si  5) Li\n\nОпределите, атомы каких двух из указанных элементов в основном состоянии содержат такое же число s-электронов, как и катион натрия.", info: "Na⁺: 1s²2s²2p⁶ — 4 s-электрона. O и F имеют 1s²2s², значит тоже 4. У Al и Si есть 3s², у Li — 1s²2s¹ (3).", explanation: "Правильный ответ: 12.", source: "Проект демоверсии ФИПИ ЕГЭ-2027, задание 1." },
+        en: { text: "For tasks 1–3, use the row of elements:\n1) O  2) F  3) Al  4) Si  5) Li\n\nDetermine which two atoms in the ground state contain the same number of s-electrons as the sodium cation.", info: "Na⁺: 1s²2s²2p⁶ — 4 s-electrons. O and F have 1s²2s², so also 4. Al and Si have 3s², Li — 1s²2s¹ (3).", explanation: "Correct answer: 12.", source: "FIPI demo EGE-2027, task 1." }
+      },
+      { n: 2, type: "auto", answerType: "digits", answer: "215", orderIndependent: false,
+        ru: { text: "Из указанных элементов выберите три, которые находятся в одном периоде. Расположите их в порядке возрастания атомных радиусов.", info: "В одном периоде (2-м) — Li, O, F. Радиус уменьшается слева направо: Li > O > F. В порядке возрастания: F, O, Li.", explanation: "Правильный ответ: 215.", source: "ФИПИ ЕГЭ-2027, задание 2." },
+        en: { text: "From the listed elements, choose three that are in the same period. Arrange them in order of increasing atomic radius.", info: "Same period (2nd) — Li, O, F. Radius decreases left to right: Li > O > F. Increasing order: F, O, Li.", explanation: "Correct answer: 215.", source: "FIPI EGE-2027, task 2." }
+      },
+      { n: 3, type: "auto", answerType: "digits", answer: "14", orderIndependent: true,
+        ru: { text: "Из ряда элементов выберите два, которые в соединениях могут принимать как положительную, так и отрицательную степень окисления.", info: "Кислород: −2, −1, +1, +2. Кремний: −4, +2, +4. Фтор — только −1, алюминий — +3, литий — +1.", explanation: "Правильный ответ: 14.", source: "ФИПИ ЕГЭ-2027, задание 3." },
+        en: { text: "Choose two elements from the row that can take both positive and negative oxidation states in compounds.", info: "Oxygen: −2, −1, +1, +2. Silicon: −4, +2, +4. Fluorine only −1, Al +3, Li +1.", explanation: "Correct answer: 14.", source: "FIPI EGE-2027, task 3." }
+      },
+      { n: 4, type: "auto", answerType: "digits", answer: "35", orderIndependent: true,
+        ru: { text: "Выберите два вещества с ковалентной полярной связью, имеющие ионную кристаллическую решётку.\n1) MgCl₂  2) P₂O₅  3) C₂H₅ONa  4) NH₃  5) KOH", info: "Этилат натрия и гидроксид калия: внутри группы — ковалентные полярные связи, ионная решётка.", explanation: "Правильный ответ: 35.", source: "ФИПИ ЕГЭ-2027, задание 4." },
+        en: { text: "Choose two substances with covalent polar bonds that have an ionic crystal lattice.\n1) MgCl₂  2) P₂O₅  3) C₂H₅ONa  4) NH₃  5) KOH", info: "Sodium ethoxide and potassium hydroxide: polar covalent bonds inside the group, ionic lattice.", explanation: "Correct answer: 35.", source: "FIPI EGE-2027, task 4." }
+      },
+      { n: 5, type: "auto", answerType: "digits", answer: "935", orderIndependent: false,
+        ru: { text: "Выберите: А) несолеобразующий оксид; Б) слабая кислота; В) простое вещество.\n\nЯчейки: 1) HI  2) Na₂O₂  3) H₂S  4) H₃P  5) алмаз  6) MgO  7) пирит  8) гипс  9) оксид азота(I)", info: "Несолеобразующий оксид — N₂O (9). Слабая кислота — H₂S (3). Простое вещество — алмаз (5).", explanation: "Правильный ответ: 935.", source: "ФИПИ ЕГЭ-2027, задание 5." },
+        en: { text: "Choose: A) a non-salt-forming oxide; B) a weak acid; C) a simple substance.\n\nCells: 1) HI  2) Na₂O₂  3) H₂S  4) H₃P  5) diamond  6) MgO  7) pyrite  8) gypsum  9) nitrogen(I) oxide", info: "Non-salt-forming oxide — N₂O (9). Weak acid — H₂S (3). Simple substance — diamond (5).", explanation: "Correct answer: 935.", source: "FIPI EGE-2027, task 5." }
+      },
+      { n: 6, type: "auto", answerType: "digits", answer: "53", orderIndependent: false,
+        ru: { text: "Даны две пробирки с Na₂S. В первую добавили X (выпал осадок), во вторую — Y (выделился газ). Выберите X и Y:\n1) HF  2) K₃PO₄  3) HCl  4) CaSiO₃  5) AgF", info: "X — AgF: даёт осадок Ag₂S. Y — HCl: вытесняет H₂S (газ).", explanation: "Правильный ответ: 53.", source: "ФИПИ ЕГЭ-2027, задание 6." },
+        en: { text: "Two tubes with Na₂S. X added to the first (precipitate), Y to the second (gas). Choose X and Y:\n1) HF  2) K₃PO₄  3) HCl  4) CaSiO₃  5) AgF", info: "X — AgF: gives Ag₂S precipitate. Y — HCl: releases H₂S (gas).", explanation: "Correct answer: 53.", source: "FIPI EGE-2027, task 6." }
+      },
+      { n: 7, type: "auto", answerType: "digits", answer: "5124", orderIndependent: false,
+        ru: { text: "Установите соответствие:\nА) P (красн.)  Б) H₂  В) Al₂(SO₄)₃  Г) HNO₃ (разб.)\n\n1) FeO, O₂, Fe₃O₄\n2) KOH, BaCl₂, NH₃·H₂O\n3) NaOH, CuO, CO₂\n4) NH₄F, Mg, Fe₂O₃\n5) HNO₃ (конц.), Ca, I₂", info: "P — 5; H₂ — 1; Al₂(SO₄)₃ — 2; HNO₃ (разб.) — 4.", explanation: "Правильный ответ: 5124.", source: "ФИПИ ЕГЭ-2027, задание 7." },
+        en: { text: "Match:\nA) P (red)  B) H₂  C) Al₂(SO₄)₃  D) HNO₃ (dil.)\n\n1) FeO, O₂, Fe₃O₄\n2) KOH, BaCl₂, NH₃·H₂O\n3) NaOH, CuO, CO₂\n4) NH₄F, Mg, Fe₂O₃\n5) HNO₃ (conc.), Ca, I₂", info: "P — 5; H₂ — 1; Al₂(SO₄)₃ — 2; HNO₃ (dil.) — 4.", explanation: "Correct answer: 5124.", source: "FIPI EGE-2027, task 7." }
+      },
+      { n: 8, type: "auto", answerType: "digits", answer: "4152", orderIndependent: false,
+        ru: { text: "Соответствие:\nА) Cl₂ + KOH (t°)  Б) K₂O + HCl  В) HCl + MnO₂ (t°)  Г) Cl₂O + KOH (холод)\n\n1) KCl + H₂O\n2) KClO + H₂O\n3) MnCl₂ + H₂O\n4) KClO₃ + KCl + H₂O\n5) MnCl₂ + Cl₂ + H₂O\n6) KClO + KCl + H₂O", info: "A — 4; Б — 1; В — 5; Г — 2.", explanation: "Правильный ответ: 4152.", source: "ФИПИ ЕГЭ-2027, задание 8." },
+        en: { text: "Match:\nA) Cl₂ + KOH (hot)  B) K₂O + HCl  C) HCl + MnO₂ (hot)  D) Cl₂O + KOH (cold)\n\n1) KCl + H₂O\n2) KClO + H₂O\n3) MnCl₂ + H₂O\n4) KClO₃ + KCl + H₂O\n5) MnCl₂ + Cl₂ + H₂O\n6) KClO + KCl + H₂O", info: "A — 4; B — 1; C — 5; D — 2.", explanation: "Correct answer: 4152.", source: "FIPI EGE-2027, task 8." }
+      },
+      { n: 9, type: "auto", answerType: "digits", answer: "34", orderIndependent: false,
+        ru: { text: "Схема: SO₂ → X → K₂SO₄. Выберите X и Y из:\n1) H₂S  2) S  3) K₂SO₃  4) H₂O₂  5) H₂O", info: "X = K₂SO₃; Y = H₂O₂.", explanation: "Правильный ответ: 34.", source: "ФИПИ ЕГЭ-2027, задание 9." },
+        en: { text: "Scheme: SO₂ → X → K₂SO₄. Choose X and Y from:\n1) H₂S  2) S  3) K₂SO₃  4) H₂O₂  5) H₂O", info: "X = K₂SO₃; Y = H₂O₂.", explanation: "Correct answer: 34.", source: "FIPI EGE-2027, task 9." }
+      },
+      { n: 10, type: "auto", answerType: "digits", answer: "231", orderIndependent: false,
+        ru: { text: "Соответствие общей формулы и вещества:\nА) CnH₂n−₂  Б) CnH₂n+₃N  В) CnH₂n−₅N\n\n1) анилин  2) ацетилен  3) триэтиламин  4) ацетон", info: "Ацетилен — CnH₂n−₂ (2). Триэтиламин — CnH₂n+₃N (3). Анилин — CnH₂n−₅N (1).", explanation: "Правильный ответ: 231.", source: "ФИПИ ЕГЭ-2027, задание 10." },
+        en: { text: "Match formula and substance:\nA) CnH₂n−₂  B) CnH₂n+₃N  C) CnH₂n−₅N\n\n1) aniline  2) acetylene  3) triethylamine  4) acetone", info: "Acetylene — CnH₂n−₂ (2). Triethylamine — CnH₂n+₃N (3). Aniline — CnH₂n−₅N (1).", explanation: "Correct answer: 231.", source: "FIPI EGE-2027, task 10." }
+      },
+      { n: 11, type: "auto", answerType: "digits", answer: "12", orderIndependent: true,
+        ru: { text: "Выберите два вещества, которые являются межклассовыми изомерами.\n1) изопрен  2) 3-метилбутин-1  3) циклопентан  4) циклопентадиен  5) метилбутан", info: "Изопрен и 3-метилбутин-1 — C₅H₈, но разные классы.", explanation: "Правильный ответ: 12.", source: "ФИПИ ЕГЭ-2027, задание 11." },
+        en: { text: "Choose two substances that are cross-class isomers.\n1) isoprene  2) 3-methylbut-1-yne  3) cyclopentane  4) cyclopentadiene  5) methylbutane", info: "Isoprene and 3-methylbut-1-yne — C₅H₈, different classes.", explanation: "Correct answer: 12.", source: "FIPI EGE-2027, task 11." }
+      },
+      { n: 12, type: "auto", answerType: "digits", answer: "15", orderIndependent: true,
+        ru: { text: "Выберите все вещества, с которыми реагируют и пропан, и глицерин.\n1) O₂  2) HCl  3) KMnO₄ (р-р)  4) Br₂ (водн.)  5) HNO₃", info: "Оба реагируют с O₂ и HNO₃.", explanation: "Правильный ответ: 15.", source: "ФИПИ ЕГЭ-2027, задание 12." },
+        en: { text: "Choose all substances that react with both propane and glycerol.\n1) O₂  2) HCl  3) KMnO₄ (aq)  4) Br₂ (aq)  5) HNO₃", info: "Both react with O₂ and HNO₃.", explanation: "Correct answer: 15.", source: "FIPI EGE-2027, task 12." }
+      },
+      { n: 13, type: "auto", answerType: "digits", answer: "12", orderIndependent: true,
+        ru: { text: "Выберите две реакции целлюлозы.\n1) этерификация  2) гидролиз  3) полимеризация  4) нейтрализация  5) гидратация", info: "Целлюлоза: этерификация (OH-группы) и гидролиз (полисахарид).", explanation: "Правильный ответ: 12.", source: "ФИПИ ЕГЭ-2027, задание 13." },
+        en: { text: "Choose two reactions of cellulose.\n1) esterification  2) hydrolysis  3) polymerisation  4) neutralisation  5) hydration", info: "Cellulose: esterification (OH groups) and hydrolysis (polysaccharide).", explanation: "Correct answer: 12.", source: "FIPI EGE-2027, task 13." }
+      },
+      { n: 14, type: "auto", answerType: "digits", answer: "4112", orderIndependent: false,
+        ru: { text: "Соответствие реакции и продукта:\nА) C₆H₅Cl + KOH (t°)\nБ) C₆H₅CH=CH₂ + KMnO₄ (H⁺)\nВ) C₆H₅CH(CH₃)₂ + KMnO₄ (H⁺)\nГ) C₆H₅CH₃ + KMnO₄ (KOH, t°)\n\n1) бензойная кислота  2) бензоат калия  3) бензол  4) фенолят калия  5) фенилуксусная кислота  6) фенол", info: "A — 4; Б — 1; В — 1; Г — 2.", explanation: "Правильный ответ: 4112.", source: "ФИПИ ЕГЭ-2027, задание 14." },
+        en: { text: "Match reaction and product:\nA) C₆H₅Cl + KOH (hot)\nB) C₆H₅CH=CH₂ + KMnO₄ (H⁺)\nC) C₆H₅CH(CH₃)₂ + KMnO₄ (H⁺)\nD) C₆H₅CH₃ + KMnO₄ (KOH, hot)\n\n1) benzoic acid  2) potassium benzoate  3) benzene  4) potassium phenoxide  5) phenylacetic acid  6) phenol", info: "A — 4; B — 1; C — 1; D — 2.", explanation: "Correct answer: 4112.", source: "FIPI EGE-2027, task 14." }
+      },
+      { n: 15, type: "auto", answerType: "digits", answer: "6523", orderIndependent: false,
+        ru: { text: "Соответствие реакции и вещества X:\nА) X + Cu(OH)₂ (t°) → уксусная кислота\nБ) X + H₂SO₄ (t°) → диэтиловый эфир\nВ) X + KMnO₄ (H⁺) → ацетон\nГ) X + H₂O (Hg²⁺) → ацетон\n\n1) пропанол-1  2) пропанол-2  3) пропин  4) пропаналь  5) этанол  6) ацетальдегид", info: "Ацетальдегид — 6; этанол — 5; пропанол-2 — 2; пропин — 3.", explanation: "Правильный ответ: 6523.", source: "ФИПИ ЕГЭ-2027, задание 15." },
+        en: { text: "Match reaction and X:\nA) X + Cu(OH)₂ (heat) → acetic acid\nB) X + H₂SO₄ (heat) → diethyl ether\nC) X + KMnO₄ (H⁺) → acetone\nD) X + H₂O (Hg²⁺) → acetone\n\n1) propan-1-ol  2) propan-2-ol  3) propyne  4) propanal  5) ethanol  6) acetaldehyde", info: "Acetaldehyde — 6; ethanol — 5; propan-2-ol — 2; propyne — 3.", explanation: "Correct answer: 6523.", source: "FIPI EGE-2027, task 15." }
+      },
+      { n: 16, type: "auto", answerType: "digits", answer: "32", orderIndependent: false,
+        ru: { text: "Схема: C₂H₄ →X→ C₂H₅OH →Y→ CH₃CHO. Выберите X и Y.\n1) H₂ (кат.)  2) CuO  3) H₂O (H⁺)  4) Ag₂O (NH₃)  5) Na", info: "X = H₂O (H⁺); Y = CuO.", explanation: "Правильный ответ: 32.", source: "ФИПИ ЕГЭ-2027, задание 16." },
+        en: { text: "Scheme: C₂H₄ →X→ C₂H₅OH →Y→ CH₃CHO. Choose X and Y.\n1) H₂ (cat.)  2) CuO  3) H₂O (H⁺)  4) Ag₂O (NH₃)  5) Na", info: "X = H₂O (H⁺); Y = CuO.", explanation: "Correct answer: 32.", source: "FIPI EGE-2027, task 16." }
+      },
+      { n: 17, type: "auto", answerType: "digits", answer: "434", orderIndependent: false,
+        ru: { text: "Соответствие реакции и типа:\nА) Na₂O + H₂O\nБ) гидролиз Al₂S₃\nВ) Fe + Cl₂\n\n1) замещения, гетерогенная\n2) соединения, гомогенная\n3) обмена, необратимая\n4) соединения, экзотермическая", info: "A — соединение, экзотермическая — 4. Б — обмен, необратимая — 3. В — соединение, экзотермическая — 4.", explanation: "Правильный ответ: 434.", source: "ФИПИ ЕГЭ-2027, задание 17." },
+        en: { text: "Match reaction and type:\nA) Na₂O + H₂O\nB) hydrolysis of Al₂S₃\nC) Fe + Cl₂\n\n1) substitution, heterogeneous\n2) combination, homogeneous\n3) exchange, irreversible\n4) combination, exothermic", info: "A — combination, exothermic — 4. B — exchange, irreversible — 3. C — combination, exothermic — 4.", explanation: "Correct answer: 434.", source: "FIPI EGE-2027, task 17." }
+      },
+      { n: 18, type: "auto", answerType: "digits", answer: "234", orderIndependent: true,
+        ru: { text: "Выберите все реакции, которые протекают быстрее, чем Mg + CH₃COOH при одинаковых условиях.\n1) Fe + CH₃COOH\n2) Mg + HCl\n3) Mg + H₂SO₄\n4) KOH + CH₃COOH\n5) Pb + CH₃COOH", info: "Сильные кислоты HCl и H₂SO₄ дают больше H⁺ — 2 и 3. Нейтрализация KOH + CH₃COOH — быстрая — 4.", explanation: "Правильный ответ: 234.", source: "ФИПИ ЕГЭ-2027, задание 18." },
+        en: { text: "Choose all reactions that are faster than Mg + CH₃COOH under the same conditions.\n1) Fe + CH₃COOH\n2) Mg + HCl\n3) Mg + H₂SO₄\n4) KOH + CH₃COOH\n5) Pb + CH₃COOH", info: "Strong acids HCl and H₂SO₄ give more H⁺ — 2 and 3. Neutralisation KOH + CH₃COOH is fast — 4.", explanation: "Correct answer: 234.", source: "FIPI EGE-2027, task 18." }
+      },
+      { n: 19, type: "auto", answerType: "digits", answer: "344", orderIndependent: false,
+        ru: { text: "Соответствие уравнения реакции и свойства водорода:\nА) 2NO₂ + 2KOH = KNO₂ + KNO₃ + H₂O\nБ) 2NH₃ + 3Ca = Ca₃N₂ + 3H₂\nВ) H₂ + Ca = CaH₂\n\n1) только восстановитель\n2) и окислитель, и восстановитель\n3) не проявляет ОВ-свойств\n4) только окислитель", info: "А — 3; Б — 4; В — 4.", explanation: "Правильный ответ: 344.", source: "ФИПИ ЕГЭ-2027, задание 19." },
+        en: { text: "Match equation and hydrogen's role:\nA) 2NO₂ + 2KOH = KNO₂ + KNO₃ + H₂O\nB) 2NH₃ + 3Ca = Ca₃N₂ + 3H₂\nC) H₂ + Ca = CaH₂\n\n1) reducing agent only\n2) both oxidiser and reducer\n3) no redox properties\n4) oxidiser only", info: "A — 3; B — 4; C — 4.", explanation: "Correct answer: 344.", source: "FIPI EGE-2027, task 19." }
+      },
+      { n: 20, type: "auto", answerType: "digits", answer: "321", orderIndependent: false,
+        ru: { text: "Соответствие соли и продуктов электролиза:\nА) Hg(NO₃)₂  Б) RbNO₃  В) AlCl₃\n\n1) H₂, галоген  2) H₂, O₂  3) металл, O₂  4) металл, галоген", info: "A — 3; Б — 2; В — 1.", explanation: "Правильный ответ: 321.", source: "ФИПИ ЕГЭ-2027, задание 20." },
+        en: { text: "Match salt and electrolysis products:\nA) Hg(NO₃)₂  B) RbNO₃  C) AlCl₃\n\n1) H₂, halogen  2) H₂, O₂  3) metal, O₂  4) metal, halogen", info: "A — 3; B — 2; C — 1.", explanation: "Correct answer: 321.", source: "FIPI EGE-2027, task 20." }
+      },
+      { n: 21, type: "auto", answerType: "digits", answer: "2431", orderIndependent: false,
+        ru: { text: "Запишите номера веществ в порядке возрастания pH их растворов (одинаковая концентрация):\n1) Na₃PO₄  2) HCl  3) KBr  4) (NH₄)₂SO₄", info: "HCl — минимальный (2). (NH₄)₂SO₄ — кислая (4). KBr — нейтральная (3). Na₃PO₄ — щелочная (1).", explanation: "Правильный ответ: 2431.", source: "ФИПИ ЕГЭ-2027, задание 21." },
+        en: { text: "Write substance numbers in order of increasing pH (equal concentration):\n1) Na₃PO₄  2) HCl  3) KBr  4) (NH₄)₂SO₄", info: "HCl — minimal (2). (NH₄)₂SO₄ — acidic (4). KBr — neutral (3). Na₃PO₄ — alkaline (1).", explanation: "Correct answer: 2431.", source: "FIPI EGE-2027, task 21." }
+      },
+      { n: 22, type: "auto", answerType: "digits", answer: "1312", orderIndependent: false,
+        ru: { text: "Соответствие воздействия на равновесие Zn²⁺ + 4OH⁻ ⇄ [Zn(OH)₄]²⁻ + Q:\nА) добавить твёрдый ZnCl₂\nБ) повысить давление\nВ) понизить температуру\nГ) добавить HClO₄\n\n1) вправо  2) влево  3) почти не смещается", info: "A — 1; Б — 3; В — 1; Г — 2.", explanation: "Правильный ответ: 1312.", source: "ФИПИ ЕГЭ-2027, задание 22." },
+        en: { text: "Match impact on equilibrium Zn²⁺ + 4OH⁻ ⇄ [Zn(OH)₄]²⁻ + Q:\nA) add solid ZnCl₂\nB) increase pressure\nC) lower temperature\nD) add HClO₄\n\n1) right  2) left  3) almost no shift", info: "A — 1; B — 3; C — 1; D — 2.", explanation: "Correct answer: 1312.", source: "FIPI EGE-2027, task 22." }
+      },
+      { n: 23, type: "auto", answerType: "digits", answer: "64", orderIndependent: false,
+        ru: { text: "В реактор поместили CO и H₂. [H₂]₀ = 1,2 моль/л. Равновесие: 2CO + 4H₂ ⇄ CH₃OCH₃ + H₂O. Равновесные [CO] = [CH₃OCH₃] = 0,2 моль/л. Найдите [CO]₀ (X) и [H₂]равн (Y):\n\n1) 0,1  2) 0,2  3) 0,3  4) 0,4  5) 0,5  6) 0,6 моль/л", info: "Прореагировало CO: 0,4. [CO]₀ = 0,6 (6). Прореагировало H₂: 0,8. [H₂] = 0,4 (4).", explanation: "Правильный ответ: 64.", source: "ФИПИ ЕГЭ-2027, задание 23." },
+        en: { text: "CO and H₂ placed into reactor. [H₂]₀ = 1.2 mol/L. Equilibrium: 2CO + 4H₂ ⇄ CH₃OCH₃ + H₂O. Equilibrium [CO] = [CH₃OCH₃] = 0.2 mol/L. Find [CO]₀ (X) and [H₂]eq (Y):\n\n1) 0.1  2) 0.2  3) 0.3  4) 0.4  5) 0.5  6) 0.6 mol/L", info: "Reacted CO: 0.4. [CO]₀ = 0.6 (6). Reacted H₂: 0.8. [H₂] = 0.4 (4).", explanation: "Correct answer: 64.", source: "FIPI EGE-2027, task 23." }
+      },
+      { n: 24, type: "auto", answerType: "digits", answer: "1515", orderIndependent: false,
+        ru: { text: "Соответствие пары веществ и реагента:\nА) Zn и Fe\nБ) BaCl₂ (р-р) и Ba(NO₃)₂ (р-р)\nВ) K₂SO₄ (р-р) и MgSO₄ (р-р)\nГ) HBr (р-р) и HNO₃ (р-р)\n\n1) KOH (р-р)  2) CH₃COOK (р-р)  3) Al₂O₃  4) KNO₃ (р-р)  5) AgNO₃ (р-р)", info: "A — 1; Б — 5; В — 1; Г — 5.", explanation: "Правильный ответ: 1515.", source: "ФИПИ ЕГЭ-2027, задание 24." },
+        en: { text: "Match pair and reagent:\nA) Zn and Fe\nB) BaCl₂ (aq) and Ba(NO₃)₂ (aq)\nC) K₂SO₄ (aq) and MgSO₄ (aq)\nD) HBr (aq) and HNO₃ (aq)\n\n1) KOH (aq)  2) CH₃COOK (aq)  3) Al₂O₃  4) KNO₃ (aq)  5) AgNO₃ (aq)", info: "A — 1; B — 5; C — 1; D — 5.", explanation: "Correct answer: 1515.", source: "FIPI EGE-2027, task 24." }
+      },
+      { n: 25, type: "auto", answerType: "digits", answer: "342", orderIndependent: false,
+        ru: { text: "Соответствие области применения и вещества:\nА) антисептик  Б) пищевая добавка  В) растворитель\n\n1) BaSO₄  2) толуол  3) H₂O₂  4) лимонная кислота", info: "A — H₂O₂ (3). Б — лимонная кислота (4). В — толуол (2).", explanation: "Правильный ответ: 342.", source: "ФИПИ ЕГЭ-2027, задание 25." },
+        en: { text: "Match application and substance:\nA) antiseptic  B) food additive  C) solvent\n\n1) BaSO₄  2) toluene  3) H₂O₂  4) citric acid", info: "A — H₂O₂ (3). B — citric acid (4). C — toluene (2).", explanation: "Correct answer: 342.", source: "FIPI EGE-2027, task 25." }
+      },
+      { n: 26, type: "auto", answerType: "number", answer: "23",
+        ru: { text: "К 130 г раствора с массовой долей Mg(NO₃)₂ 10 % добавили 17 г этой же соли и выпарили 17 мл воды. Найдите массовую долю соли. Ответ — целое число процентов.", info: "Соли: 130·0,10 = 13 г; всего 30 г. Масса раствора: 130 + 17 − 17 = 130 г. ω = 30/130 ≈ 23 %.", explanation: "Правильный ответ: 23.", source: "ФИПИ ЕГЭ-2027, задание 26." },
+        en: { text: "17 g of Mg(NO₃)₂ was added to 130 g of 10 % solution and 17 mL of water was evaporated. Find the mass fraction of the salt. Answer — integer percent.", info: "Salt: 130·0.10 = 13 g; total 30 g. Solution mass: 130 + 17 − 17 = 130 g. ω = 30/130 ≈ 23 %.", explanation: "Correct answer: 23.", source: "FIPI EGE-2027, task 26." }
+      },
+      { n: 27, type: "auto", answerType: "number", answer: "282",
+        ru: { text: "Найдите количество теплоты при образовании 8,96 л CO₂ (н.у.) в реакции:\nC₂H₅OH(ж) + 3O₂(г) = 2CO₂(г) + 3H₂O(ж) + 1410 кДж.\nОтвет — целое число кДж.", info: "n(CO₂) = 0,4 моль. Q = (0,4/2)·1410 = 282 кДж.", explanation: "Правильный ответ: 282.", source: "ФИПИ ЕГЭ-2027, задание 27." },
+        en: { text: "Find the heat released during formation of 8.96 L CO₂ (STP) in:\nC₂H₅OH(l) + 3O₂(g) = 2CO₂(g) + 3H₂O(l) + 1410 kJ.\nAnswer — integer kJ.", info: "n(CO₂) = 0.4 mol. Q = (0.4/2)·1410 = 282 kJ.", explanation: "Correct answer: 282.", source: "FIPI EGE-2027, task 27." }
+      },
+      { n: 28, type: "auto", answerType: "number", answer: "2.24",
+        ru: { text: "Вычислите объём газа (н.у.), полученного действием избытка HCl на 10 г технического FeS с массовой долей несульфидных примесей 12 %. Ответ — сотые доли литра.", info: "Чистого FeS: 8,8 г; n = 0,1 моль. n(H₂S) = 0,1 моль. V = 2,24 л.", explanation: "Правильный ответ: 2,24.", source: "ФИПИ ЕГЭ-2027, задание 28." },
+        en: { text: "Calculate the volume of gas (STP) obtained by excess HCl acting on 10 g of technical FeS with mass fraction of non-sulfide impurities 12 %. Answer — hundredths of a litre.", info: "Pure FeS: 8.8 g; n = 0.1 mol. n(H₂S) = 0.1 mol. V = 2.24 L.", explanation: "Correct answer: 2.24.", source: "FIPI EGE-2027, task 28." }
+      }
+    ];
+
+    const ESSAY_QUIZ = [
+      { n: 29, type: "essay", maxBall: 2,
+        ru: { text: "Из перечня: KNO₂, K₂SO₃, K₂Cr₂O₇, H₂SO₄, KI, NH₄HSO₄ — выберите окислитель и восстановитель для реакции с образованием простого вещества и раствора двух солей. Составьте электронный баланс, укажите окислитель и восстановитель.", info: "Один из правильных вариантов: K₂Cr₂O₇ + KI + H₂SO₄ → I₂ + Cr₂(SO₄)₃ + K₂SO₄.", explanation: "K₂Cr₂O₇ + 6KI + 7H₂SO₄ = Cr₂(SO₄)₃ + 3I₂ + 4K₂SO₄ + 7H₂O. Баланс: 2Cr⁺⁶ + 6e⁻ → 2Cr⁺³; 2I⁻ − 2e⁻ → I₂.", source: "ФИПИ ЕГЭ-2027, задание 29." },
+        en: { text: "From KNO₂, K₂SO₃, K₂Cr₂O₇, H₂SO₄, KI, NH₄HSO₄ choose the oxidiser and reducer for a reaction giving a simple substance and two salts. Balance electrons, identify oxidiser and reducer.", info: "One correct variant: K₂Cr₂O₇ + KI + H₂SO₄ → I₂ + Cr₂(SO₄)₃ + K₂SO₄.", explanation: "K₂Cr₂O₇ + 6KI + 7H₂SO₄ = Cr₂(SO₄)₃ + 3I₂ + 4K₂SO₄ + 7H₂O. Balance: 2Cr⁺⁶ + 6e⁻ → 2Cr⁺³; 2I⁻ − 2e⁻ → I₂.", source: "FIPI EGE-2027, task 29." },
+        optionsRu: [
+          { label: "0 баллов: решение не соответствует критериям", balls: 0 },
+          { label: "1 балл: правильно записан один элемент ответа", balls: 1 },
+          { label: "2 балла: полное верное решение", balls: 2 }
+        ],
+        optionsEn: [
+          { label: "0 points: solution does not meet criteria", balls: 0 },
+          { label: "1 point: one element of the answer correct", balls: 1 },
+          { label: "2 points: complete correct solution", balls: 2 }
+        ] },
+      { n: 30, type: "essay", maxBall: 2,
+        ru: { text: "Из того же перечня выберите два вещества, реакция ионного обмена которых даёт слабый электролит без выделения газа. Запишите молекулярное, полное и сокращённое ионные уравнения.", info: "Основной вариант: KNO₂ + H₂SO₄ → HNO₂ (слабый электролит).", explanation: "2KNO₂ + H₂SO₄ = 2HNO₂ + K₂SO₄. Сокращённое: H⁺ + NO₂⁻ = HNO₂.", source: "ФИПИ ЕГЭ-2027, задание 30." },
+        en: { text: "From the same list choose two substances whose ion-exchange reaction gives a weak electrolyte without gas. Write molecular, full and net ionic equations.", info: "Main variant: KNO₂ + H₂SO₄ → HNO₂ (weak electrolyte).", explanation: "2KNO₂ + H₂SO₄ = 2HNO₂ + K₂SO₄. Net: H⁺ + NO₂⁻ = HNO₂.", source: "FIPI EGE-2027, task 30." },
+        optionsRu: [
+          { label: "0 баллов: решение не соответствует критериям", balls: 0 },
+          { label: "1 балл: правильно записан один элемент", balls: 1 },
+          { label: "2 балла: полное верное решение", balls: 2 }
+        ],
+        optionsEn: [
+          { label: "0 points: not meeting criteria", balls: 0 },
+          { label: "1 point: one element correct", balls: 1 },
+          { label: "2 points: complete correct solution", balls: 2 }
+        ] },
+      { n: 31, type: "essay", maxBall: 4,
+        ru: { text: "KAlO₂ растворили в H₂SO₄. Добавили Na₂SO₃. Газ разделили: одну часть поглотили Na₂Cr₂O₇ + H₂SO₄, другую — бромной водой. Напишите молекулярные уравнения четырёх описанных реакций.", info: "4 уравнения, по 1 баллу за каждое.", explanation: "1) 2KAlO₂ + 4H₂SO₄ = Al₂(SO₄)₃ + K₂SO₄ + 4H₂O. 2) Al₂(SO₄)₃ + 3Na₂SO₃ + 3H₂O = 2Al(OH)₃↓ + 3SO₂↑ + 3Na₂SO₄. 3) 3SO₂ + Na₂Cr₂O₇ + H₂SO₄ = Cr₂(SO₄)₃ + Na₂SO₄ + H₂O. 4) SO₂ + Br₂ + 2H₂O = H₂SO₄ + 2HBr.", source: "ФИПИ ЕГЭ-2027, задание 31." },
+        en: { text: "KAlO₂ dissolved in H₂SO₄. Na₂SO₃ added. Gas split: one part into Na₂Cr₂O₇ + H₂SO₄, the other into bromine water. Write four molecular equations.", info: "4 equations, 1 point each.", explanation: "1) 2KAlO₂ + 4H₂SO₄ = Al₂(SO₄)₃ + K₂SO₄ + 4H₂O. 2) Al₂(SO₄)₃ + 3Na₂SO₃ + 3H₂O = 2Al(OH)₃↓ + 3SO₂↑ + 3Na₂SO₄. 3) 3SO₂ + Na₂Cr₂O₇ + H₂SO₄ = Cr₂(SO₄)₃ + Na₂SO₄ + H₂O. 4) SO₂ + Br₂ + 2H₂O = H₂SO₄ + 2HBr.", source: "FIPI EGE-2027, task 31." },
+        optionsRu: [
+          { label: "0 баллов: все уравнения неверны", balls: 0 },
+          { label: "1 балл: верно одно", balls: 1 },
+          { label: "2 балла: верно два", balls: 2 },
+          { label: "3 балла: верно три", balls: 3 },
+          { label: "4 балла: верно четыре", balls: 4 }
+        ],
+        optionsEn: [
+          { label: "0 points: all wrong", balls: 0 },
+          { label: "1 point: one correct", balls: 1 },
+          { label: "2 points: two correct", balls: 2 },
+          { label: "3 points: three correct", balls: 3 },
+          { label: "4 points: four correct", balls: 4 }
+        ] },
+      { n: 32, type: "essay", maxBall: 5,
+        ru: { text: "Напишите уравнения реакций цепочки:\nX₁ —Na→ X₂ —CH₃Cl→ C₃H₄; C₃H₆ —X₄→ C₃H₄; C₃H₄ —[Ag(NH₃)₂]OH→ X₃.", info: "5 уравнений. X₁ — HC≡CH; X₂ — HC≡CNa; X₃ — CH₃C≡CAg; X₄ — Br₂.", explanation: "1) 2HC≡CH + 2Na → 2HC≡CNa + H₂. 2) HC≡CNa + CH₃Cl → CH₃C≡CH + NaCl. 3) CH₃C≡CH + [Ag(NH₃)₂]OH → CH₃C≡CAg↓ + 2NH₃ + H₂O. 4) CH₃CH=CH₂ + Br₂ → CH₃CHBrCH₂Br. 5) CH₃CHBrCH₂Br + 2KOH(спирт.) → CH₃C≡CH + 2KBr + 2H₂O.", source: "ФИПИ ЕГЭ-2027, задание 32." },
+        en: { text: "Write equations for the chain:\nX₁ —Na→ X₂ —CH₃Cl→ C₃H₄; C₃H₆ —X₄→ C₃H₄; C₃H₄ —[Ag(NH₃)₂]OH→ X₃.", info: "5 equations. X₁ — HC≡CH; X₂ — HC≡CNa; X₃ — CH₃C≡CAg; X₄ — Br₂.", explanation: "1) 2HC≡CH + 2Na → 2HC≡CNa + H₂. 2) HC≡CNa + CH₃Cl → CH₃C≡CH + NaCl. 3) CH₃C≡CH + [Ag(NH₃)₂]OH → CH₃C≡CAg↓ + 2NH₃ + H₂O. 4) CH₃CH=CH₂ + Br₂ → CH₃CHBrCH₂Br. 5) CH₃CHBrCH₂Br + 2KOH(alc.) → CH₃C≡CH + 2KBr + 2H₂O.", source: "FIPI EGE-2027, task 32." },
+        optionsRu: [
+          { label: "0 баллов", balls: 0 }, { label: "1 балл", balls: 1 }, { label: "2 балла", balls: 2 }, { label: "3 балла", balls: 3 }, { label: "4 балла", balls: 4 }, { label: "5 баллов", balls: 5 }
+        ],
+        optionsEn: [
+          { label: "0 points", balls: 0 }, { label: "1 point", balls: 1 }, { label: "2 points", balls: 2 }, { label: "3 points", balls: 3 }, { label: "4 points", balls: 4 }, { label: "5 points", balls: 5 }
+        ] },
+      { n: 33, type: "essay", maxBall: 3,
+        ru: { text: "Вещество А состава CxHyOzNa содержит 31,08 % натрия и 43,24 % кислорода. Порция А массой 2,96 г реагирует с 2,58 г C₂H₅Cl в мольном соотношении 1:2. Установите молекулярную и структурную формулу, напишите уравнение с хлорэтаном.", info: "M(A) = 148 г/моль; Na — 2, O — 4, C — 3, H — 2. Формула C₃H₂O₄Na₂.", explanation: "Структура: NaOOC–CH₂–COONa. Уравнение: NaOOC–CH₂–COONa + 2C₂H₅Cl → C₂H₅OOC–CH₂–COOC₂H₅ + 2NaCl.", source: "ФИПИ ЕГЭ-2027, задание 33." },
+        en: { text: "Substance A of composition CxHyOzNa contains 31.08 % sodium and 43.24 % oxygen. 2.96 g of A reacts with 2.58 g of C₂H₅Cl in a 1:2 molar ratio. Determine molecular and structural formulas; write the equation with chloroethane.", info: "M(A) = 148 g/mol; Na — 2, O — 4, C — 3, H — 2. Formula C₃H₂O₄Na₂.", explanation: "Structure: NaOOC–CH₂–COONa. Equation: NaOOC–CH₂–COONa + 2C₂H₅Cl → C₂H₅OOC–CH₂–COOC₂H₅ + 2NaCl.", source: "FIPI EGE-2027, task 33." },
+        optionsRu: [
+          { label: "0 баллов", balls: 0 }, { label: "1 балл", balls: 1 }, { label: "2 балла", balls: 2 }, { label: "3 балла", balls: 3 }
+        ],
+        optionsEn: [
+          { label: "0 points", balls: 0 }, { label: "1 point", balls: 1 }, { label: "2 points", balls: 2 }, { label: "3 points", balls: 3 }
+        ] },
+      { n: 34, type: "essay", maxBall: 4,
+        ru: { text: "13,52 г олеума (массовая доля O — 61,54 %) растворили в воде и добавили к 500 мл 0,42 М BaCl₂ (ρ = 1,1 г/мл). Массовая доля BaCl₂ стала 1,66 %. Найдите объём воды.", info: "n(H₂SO₄) = 0,04; n(SO₃) = 0,12. Уравнения: SO₃ + H₂O = H₂SO₄; H₂SO₄ + BaCl₂ = BaSO₄↓ + 2HCl.", explanation: "n(BaCl₂) всего = 0,21 моль. Осталось 0,05 моль (10,4 г). m(BaSO₄) = 37,28 г. y = 100,3 г; V(H₂O) ≈ 100,3 мл.", source: "ФИПИ ЕГЭ-2027, задание 34." },
+        en: { text: "13.52 g of oleum (mass fraction of O — 61.54 %) was dissolved in water and added to 500 mL of 0.42 M BaCl₂ (ρ = 1.1 g/mL). Mass fraction of BaCl₂ became 1.66 %. Find the volume of water.", info: "n(H₂SO₄) = 0.04; n(SO₃) = 0.12. Equations: SO₃ + H₂O = H₂SO₄; H₂SO₄ + BaCl₂ = BaSO₄↓ + 2HCl.", explanation: "Total n(BaCl₂) = 0.21 mol. Left 0.05 mol (10.4 g). m(BaSO₄) = 37.28 g. y = 100.3 g; V(H₂O) ≈ 100.3 mL.", source: "FIPI EGE-2027, task 34." },
+        optionsRu: [
+          { label: "0 баллов", balls: 0 }, { label: "1 балл", balls: 1 }, { label: "2 балла", balls: 2 }, { label: "3 балла", balls: 3 }, { label: "4 балла", balls: 4 }
+        ],
+        optionsEn: [
+          { label: "0 points", balls: 0 }, { label: "1 point", balls: 1 }, { label: "2 points", balls: 2 }, { label: "3 points", balls: 3 }, { label: "4 points", balls: 4 }
+        ] }
+    ];
+
+    // ============================================================
+    // ЧЕК-ЛИСТ И ПЛАН
+    // ============================================================
+    const CHECKLIST_ITEMS = {
+      ru: [
+        "Повторил строение атома: электронные конфигурации, s-, p-, d-элементы.",
+        "Отработал Периодический закон и закономерности по периодам и группам.",
+        "Повторил виды химической связи и типы кристаллических решёток.",
+        "Отработал классификацию и номенклатуру неорганических и органических веществ.",
+        "Повторил химические свойства оксидов, кислот, оснований, солей.",
+        "Отработал металлы и неметаллы: свойства, получение, применение.",
+        "Повторил генетическую связь классов неорганики.",
+        "Отработал органику: алканы, алкены, алкины, арены, спирты, альдегиды, кислоты.",
+        "Повторил генетическую связь классов органики.",
+        "Отработал классификацию реакций, тепловой эффект, скорость.",
+        "Повторил ОВР и методы электронного баланса.",
+        "Отработал электролиз растворов и расплавов.",
+        "Повторил гидролиз солей и pH растворов.",
+        "Отработал химическое равновесие и принцип Ле Шателье.",
+        "Повторил качественные реакции на ионы и вещества.",
+        "Отработал расчёты: массовая доля, молярная концентрация, растворимость.",
+        "Повторил расчёты по термохимическим уравнениям.",
+        "Отработал расчёты по уравнениям реакций: избыток, примеси, выход.",
+        "Написал минимум 5 задач формата 29 и 30.",
+        "Написал минимум 3 цепочки превращений (31 и 32).",
+        "Отработал задачу 33: установление формулы и структурная формула.",
+        "Прошёл полный пробник на время 210 минут и разобрал ошибки."
+      ],
+      en: [
+        "Reviewed atomic structure: electron configurations, s-, p-, d-elements.",
+        "Practiced the Periodic Law and trends by periods and groups.",
+        "Reviewed types of chemical bonding and crystal lattices.",
+        "Practiced classification and nomenclature of inorganic and organic substances.",
+        "Reviewed chemical properties of oxides, acids, bases, salts.",
+        "Practiced metals and non-metals: properties, production, use.",
+        "Reviewed genetic relationship between classes of inorganic substances.",
+        "Practiced organic chemistry: alkanes, alkenes, alkynes, arenes, alcohols, aldehydes, acids.",
+        "Reviewed genetic relationship between classes of organic substances.",
+        "Practiced reaction classification, thermal effect, rate.",
+        "Reviewed redox reactions and electron balance methods.",
+        "Practiced electrolysis of solutions and melts.",
+        "Reviewed salt hydrolysis and pH.",
+        "Practiced chemical equilibrium and Le Chatelier's principle.",
+        "Reviewed qualitative reactions for ions and substances.",
+        "Practiced calculations: mass fraction, molar concentration, solubility.",
+        "Reviewed calculations with thermochemical equations.",
+        "Practiced reaction calculations: excess, impurities, yield.",
+        "Wrote at least 5 tasks of the format of tasks 29 and 30.",
+        "Wrote at least 3 chains of transformations (tasks 31 and 32).",
+        "Practiced task 33: determining formula and structural formula.",
+        "Completed a full 210-minute mock exam and reviewed mistakes."
+      ]
+    };
+
+    const PLAN_DAYS = {
+      ru: [
+        "Диагностика: пробник на 210 минут.",
+        "Строение атома, электронные конфигурации, Периодический закон.",
+        "Химическая связь, кристаллические решётки, валентность, степень окисления.",
+        "Классификация неорганических веществ, номенклатура.",
+        "Химические свойства оксидов, кислот, оснований.",
+        "Химические свойства солей. Генетическая связь неорганики.",
+        "Металлы и их соединения. Общие способы получения.",
+        "Неметаллы и их соединения.",
+        "ОВР и электронный баланс.",
+        "Электролиз растворов и расплавов.",
+        "Ионный обмен, слабые электролиты, гидролиз.",
+        "pH растворов. Среда растворов солей.",
+        "Классификация химических реакций.",
+        "Скорость реакции. Химическое равновесие. Принцип Ле Шателье.",
+        "Тепловой эффект реакций. Термохимия.",
+        "Органика: строение, изомерия, номенклатура.",
+        "Углеводороды: алканы, алкены, алкины, арены.",
+        "Кислородсодержащие: спирты, фенолы, альдегиды, кислоты, эфиры.",
+        "Жиры, углеводы, амины, аминокислоты, белки.",
+        "Цепочки реакций: задания 31 и 32.",
+        "Химия и жизнь: полимеры, волокна, применение.",
+        "Расчёты: массовая доля, молярная концентрация, растворимость.",
+        "Расчёты по уравнениям реакций: избыток, примеси, выход.",
+        "Пробник № 2 на время.",
+        "Финальное повторение критериев, тайминга и ловушек."
+      ],
+      en: [
+        "Diagnostics: full 210-minute mock exam.",
+        "Atomic structure, electron configurations, Periodic Law.",
+        "Chemical bonding, crystal lattices, valence, oxidation state.",
+        "Classification of inorganic substances, nomenclature.",
+        "Chemical properties of oxides, acids, bases.",
+        "Chemical properties of salts. Genetic relationship of inorganics.",
+        "Metals and their compounds. Common production methods.",
+        "Non-metals and their compounds.",
+        "Redox reactions and electron balance.",
+        "Electrolysis of solutions and melts.",
+        "Ion exchange, weak electrolytes, hydrolysis.",
+        "pH of solutions. Medium of salt solutions.",
+        "Classification of chemical reactions.",
+        "Reaction rate. Chemical equilibrium. Le Chatelier's principle.",
+        "Thermal effect of reactions. Thermochemistry.",
+        "Organic chemistry: structure, isomerism, nomenclature.",
+        "Hydrocarbons: alkanes, alkenes, alkynes, arenes.",
+        "Oxygen-containing: alcohols, phenols, aldehydes, acids, esters.",
+        "Fats, carbohydrates, amines, amino acids, proteins.",
+        "Reaction chains: tasks 31 and 32.",
+        "Chemistry in life: polymers, fibres, applications.",
+        "Calculations: mass fraction, molar concentration, solubility.",
+        "Reaction calculations: excess, impurities, yield.",
+        "Mock exam #2 under time.",
+        "Final review of criteria, timing and traps."
+      ]
+    };
+
+    // ============================================================
+    // ЛОГИКА
+    // ============================================================
+    let savedAnswers = {};
+    let checklistState = {};
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function (m) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m];
+      });
+    }
+
+    function scrollToId(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function normalizeNumber(value) {
+      return String(value).trim().replace(/\s+/g, "").replace(/,/g, ".").replace(/−/g, "-").replace(/[^\d.\-]/g, "");
+    }
+    function normalizeDigits(value) { return String(value).replace(/\D/g, ""); }
+    function sortDigits(value) { return normalizeDigits(value).split("").sort().join(""); }
+
+    function countDiffOrdered(input, expected) {
+      let diff = 0;
+      for (let i = 0; i < expected.length; i++) if (input[i] !== expected[i]) diff++;
+      return diff;
+    }
+
+    function scoreAutoTask(task, raw) {
+      const max = WEIGHTS[task.n] || 1;
+      if (task.answerType === "digits") {
+        const input = normalizeDigits(raw);
+        const expected = normalizeDigits(task.answer);
+        if (!input) return 0;
+        if (task.orderIndependent) return sortDigits(input) === sortDigits(expected) ? max : 0;
+        if (input.length !== expected.length) return 0;
+        if (input === expected) return max;
+        if (max === 2 && countDiffOrdered(input, expected) === 1) return 1;
+        return 0;
+      }
+      const inputNum = Number(normalizeNumber(raw));
+      if (!Number.isFinite(inputNum)) return 0;
+      const expectedNum = Number(normalizeNumber(task.answer));
+      return Number.isFinite(expectedNum) && Math.abs(inputNum - expectedNum) < 1e-6 ? max : 0;
+    }
+
+    function applyUIText() {
+      const L = I18N[currentLang];
+      document.title = L.docTitle;
+      document.documentElement.lang = currentLang;
+      const meta = document.querySelector('meta[name="description"]');
+      if (meta) meta.setAttribute("content", L.metaDesc);
+      document.querySelectorAll("[data-i18n]").forEach(function (el) {
+        const key = el.dataset.i18n;
+        if (L[key] != null) el.innerHTML = L[key];
+      });
+    }
+
+    function renderCards(containerId, cards) {
+      const grid = document.getElementById(containerId);
+      grid.innerHTML = "";
+      cards.forEach(function (c) {
+        const div = document.createElement("div");
+        div.className = "card " + (c.cls || "");
+        let inner = '<span class="tag ' + (c.tagCls || "") + '">' + escapeHtml(c.tag) + "</span>";
+        inner += "<h3>" + escapeHtml(c.title) + "</h3>";
+        if (c.list) {
+          inner += '<ul class="mini-list">' + c.list.map(function (i) { return "<li>" + escapeHtml(i) + "</li>"; }).join("") + "</ul>";
+        } else if (c.text) {
+          inner += "<p>" + escapeHtml(c.text) + "</p>";
+        }
+        div.innerHTML = inner;
+        grid.appendChild(div);
+      });
+    }
+
+    function renderChecklist() {
+      const ul = document.getElementById("checklistUl");
+      const items = CHECKLIST_ITEMS[currentLang];
+      ul.innerHTML = items.map(function (text, index) {
+        const key = "ch" + (index + 1);
+        const checked = checklistState[key] ? "checked" : "";
+        const doneClass = checklistState[key] ? "done" : "";
+        return [
+          '<li class="check-item ' + doneClass + '">',
+            '<input type="checkbox" id="' + key + '" data-key="' + key + '" ' + checked + ' />',
+            '<label for="' + key + '">' + escapeHtml(text) + '</label>',
+          '</li>'
+        ].join("");
+      }).join("");
+    }
+
+    function renderPlan() {
+      const L = I18N[currentLang];
+      const days = PLAN_DAYS[currentLang];
+      document.getElementById("planGrid").innerHTML = days.map(function (text, index) {
+        const day = index + 1;
+        const critical = day === 1 || day === 9 || day === 20 || day === 25;
+        return [
+          '<div class="day ' + (critical ? "critical" : "") + '">',
+            '<b>' + (currentLang === "ru" ? "День " : "Day ") + day + '</b>',
+            escapeHtml(text),
+          '</div>'
+        ].join("");
+      }).join("");
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById("quizContainer");
+      container.innerHTML = "";
+
+      // Авточасть
+      AUTO_QUIZ.forEach(function (task) {
+        const block = document.createElement("div");
+        block.className = "question-block";
+        block.id = "q" + task.n;
+        const langData = task[currentLang];
+
+        const placeholder = task.answerType === "digits"
+          ? (currentLang === "ru" ? "Например: 124" : "e.g. 124")
+          : (currentLang === "ru" ? "Например: 15" : "e.g. 15");
+
+        block.innerHTML = [
+          '<div class="q-number">' + (currentLang === "ru" ? "Задание " : "Task ") + task.n + " / " + TOTAL_TASKS + "</div>",
+          '<div style="margin:-8px 0 14px;"><span class="tag orange">' + escapeHtml(loc("tagPart1")) + "</span></div>",
+          '<div class="q-part">',
+            '<span class="q-part-label">' + escapeHtml(loc("qLabel1")) + "</span>",
+            '<div class="q-text">' + escapeHtml(langData.text) + "</div>",
+          "</div>",
+          '<div class="q-info">',
+            '<span class="q-part-label" style="color:#d8ccff;">' + escapeHtml(loc("qLabel2")) + "</span>",
+            '<p style="margin:0;">' + escapeHtml(langData.info) + "</p>",
+          "</div>",
+          '<div class="q-part">',
+            '<span class="q-trainer-label">' + escapeHtml(loc("qLabel3")) + "</span>",
+            '<div class="answer-row">',
+              '<input id="input-' + task.n + '" class="answer-input" type="text" placeholder="' + escapeHtml(placeholder) + '" />',
+              '<button class="btn small" onclick="checkAuto(' + task.n + ')">' + escapeHtml(loc("checkBtn")) + '</button>',
+            "</div>",
+          "</div>",
+          '<div id="result-' + task.n + '"></div>'
+        ].join("");
+        container.appendChild(block);
+      });
+
+      // Эссе
+      ESSAY_QUIZ.forEach(function (task) {
+        const block = document.createElement("div");
+        block.className = "question-block";
+        block.id = "q" + task.n;
+        const langData = task[currentLang];
+        const options = currentLang === "ru" ? task.optionsRu : task.optionsEn;
+
+        let optionsHtml = "";
+        options.forEach(function (opt, idx) {
+          optionsHtml += '<button class="option" onclick="chooseEssay(' + task.n + ', ' + idx + ')">' + escapeHtml(opt.label) + "</button>";
+        });
+
+        block.innerHTML = [
+          '<div class="q-number">' + (currentLang === "ru" ? "Задание " : "Task ") + task.n + " / " + TOTAL_TASKS + "</div>",
+          '<div style="margin:-8px 0 14px;"><span class="tag green">' + escapeHtml(loc("tagPart2")) + "</span></div>",
+          '<div class="q-part">',
+            '<span class="q-part-label">' + escapeHtml(loc("qLabel1")) + "</span>",
+            '<div class="q-text">' + escapeHtml(langData.text) + "</div>",
+          "</div>",
+          '<div class="q-info">',
+            '<span class="q-part-label" style="color:#d8ccff;">' + escapeHtml(loc("qLabel2")) + "</span>",
+            '<p style="margin:0;">' + escapeHtml(langData.info) + "</p>",
+          "</div>",
+          '<div class="q-part">',
+            '<span class="q-trainer-label">' + escapeHtml(loc("qLabelEssay")) + "</span>",
+            '<div class="options" id="options-' + task.n + '">' + optionsHtml + "</div>",
+          "</div>",
+          '<div id="result-' + task.n + '"></div>'
+        ].join("");
+        container.appendChild(block);
+      });
+
+      restoreAnswers();
+      updateStats();
+      updateSummary();
+    }
+
+    function restoreAnswers() {
+      AUTO_QUIZ.forEach(function (task) {
+        const saved = savedAnswers[task.n];
+        if (!saved) return;
+        const input = document.getElementById("input-" + task.n);
+        if (!input) return;
+        input.disabled = true;
+        input.value = saved.value;
+        input.classList.remove("correct", "wrong", "partial");
+        if (saved.score === saved.max) input.classList.add("correct");
+        else if (saved.score > 0) input.classList.add("partial");
+        else input.classList.add("wrong");
+        showAutoResult(task, saved);
+      });
+      ESSAY_QUIZ.forEach(function (task) {
+        const saved = savedAnswers[task.n];
+        if (!saved) return;
+        const buttons = document.querySelectorAll("#options-" + task.n + " .option");
+        buttons.forEach(function (btn, i) {
+          btn.disabled = true;
+          if (i === saved.idx) btn.classList.add("selected");
+        });
+        showEssayResult(task, saved);
+      });
+    }
+
+    function checkAuto(n) {
+      const task = AUTO_QUIZ.find(function (q) { return q.n === n; });
+      if (!task || savedAnswers[n]) return;
+      const input = document.getElementById("input-" + n);
+      const raw = input.value;
+      if (!String(raw).trim()) { alert(loc("enterAnswer")); return; }
+      const max = WEIGHTS[task.n] || 1;
+      const score = scoreAutoTask(task, raw);
+      const saved = { value: raw, score: score, max: max, correct: score === max };
+      savedAnswers[n] = saved;
+      input.disabled = true;
+      input.value = raw;
+      input.classList.remove("correct", "wrong", "partial");
+      if (score === max) input.classList.add("correct");
+      else if (score > 0) input.classList.add("partial");
+      else input.classList.add("wrong");
+      showAutoResult(task, saved);
+      updateStats();
+      updateSummary();
+    }
+
+    function showAutoResult(task, saved) {
+      const resultBox = document.getElementById("result-" + task.n);
+      if (!resultBox) return;
+      const langData = task[currentLang];
+      const correctText = task.answerType === "digits"
+        ? task.answer
+        : String(task.answer).replace(".", ",");
+      const isMax = saved.score === saved.max;
+      const isPartial = saved.score > 0 && !isMax;
+      const verdictClass = isMax ? "correct" : isPartial ? "partial" : "wrong";
+      const verdictText = isMax ? loc("correct") : isPartial ? loc("partial") : loc("wrong");
+
+      resultBox.innerHTML = [
+        '<div class="result-block ' + verdictClass + '">',
+          '<div class="verdict ' + verdictClass + '">' + escapeHtml(verdictText) + "</div>",
+          '<div class="result-row"><strong>' + escapeHtml(loc("yourAnswer")) + '</strong> ' + escapeHtml(saved.value) + "</div>",
+          '<div class="result-row"><strong>' + escapeHtml(loc("correctAnswer")) + '</strong> ' + escapeHtml(correctText) + "</div>",
+          '<div class="result-row"><strong>' + escapeHtml(loc("pointsLabel")) + '</strong> ' + saved.score + " / " + saved.max + "</div>",
+          '<div class="result-row"><strong>' + escapeHtml(loc("explanationLabel")) + '</strong> ' + escapeHtml(langData.explanation) + "</div>",
+          '<div class="source-row"><strong>' + escapeHtml(loc("sourceLabel")) + '</strong> ' + escapeHtml(langData.source) + "</div>",
+        "</div>"
+      ].join("");
+    }
+
+    function chooseEssay(n, idx) {
+      const task = ESSAY_QUIZ.find(function (q) { return q.n === n; });
+      if (!task || savedAnswers[n]) return;
+      const options = currentLang === "ru" ? task.optionsRu : task.optionsEn;
+      const option = options[idx];
+      const saved = { idx: idx, label: option.label, balls: option.balls };
+      savedAnswers[n] = saved;
+      const buttons = document.querySelectorAll("#options-" + n + " .option");
+      buttons.forEach(function (btn, i) {
+        btn.disabled = true;
+        if (i === idx) btn.classList.add("selected");
+      });
+      showEssayResult(task, saved);
+      updateStats();
+      updateSummary();
+    }
+
+    function showEssayResult(task, saved) {
+      const resultBox = document.getElementById("result-" + task.n);
+      if (!resultBox) return;
+      const langData = task[currentLang];
+      resultBox.innerHTML = [
+        '<div class="result-block neutral">',
+          '<div class="verdict neutral">' + escapeHtml(loc("selfCheckAccepted")) + "</div>",
+          '<div class="result-row"><strong>' + escapeHtml(loc("yourStatus")) + '</strong> ' + escapeHtml(saved.label) + "</div>",
+          '<div class="result-row"><strong>' + escapeHtml(loc("selfCheckPoints")) + '</strong> ' + saved.balls + " / " + task.maxBall + "</div>",
+          '<div class="result-row"><strong>' + escapeHtml(loc("guideline")) + '</strong> ' + escapeHtml(langData.explanation) + "</div>",
+          '<div class="source-row"><strong>' + escapeHtml(loc("sourceLabel")) + '</strong> ' + escapeHtml(langData.source) + "</div>",
+        "</div>"
+      ].join("");
+    }
+
+    function getStats() {
+      let answered = 0, autoCorrect = 0, autoScore = 0, autoMax = 0;
+      let essaySelfScore = 0, essayMax = 0;
+      AUTO_QUIZ.forEach(function (task) {
+        const saved = savedAnswers[task.n];
+        const w = WEIGHTS[task.n] || 1;
+        autoMax += w;
+        if (saved) {
+          answered++;
+          autoScore += saved.score || 0;
+          if (saved.correct) autoCorrect++;
+        }
+      });
+      ESSAY_QUIZ.forEach(function (task) {
+        const saved = savedAnswers[task.n];
+        essayMax += task.maxBall || 0;
+        if (saved) {
+          answered++;
+          essaySelfScore += saved.balls || 0;
+        }
+      });
+      return { total: TOTAL_TASKS, answered: answered, autoTotal: PART1_TASKS, autoCorrect: autoCorrect, autoScore: autoScore, autoMax: autoMax, essaySelfScore: essaySelfScore, essayMax: essayMax };
+    }
+
+    function getChecklistProgress() {
+      const inputs = document.querySelectorAll("#checklistUl input");
+      const total = inputs.length;
+      let done = 0;
+      inputs.forEach(function (input) { if (input.checked) done++; });
+      return total ? Math.round((done / total) * 100) : 0;
+    }
+
+    function updateStats() {
+      const s = getStats();
+      document.getElementById("answeredCount").textContent = s.answered + "/" + s.total;
+      document.getElementById("correctCount").textContent = s.autoCorrect + "/" + s.autoTotal;
+      document.getElementById("checklistProgress").textContent = getChecklistProgress() + "%";
+      document.getElementById("overall").value = Math.round(((s.answered / s.total) * 100 + getChecklistProgress()) / 2);
+    }
+
+    function updateSummary() {
+      const s = getStats();
+      const box = document.getElementById("summaryBox");
+      const totalSelf = s.autoScore + s.essaySelfScore;
+      const L = I18N[currentLang];
+
+      if (s.answered < s.total) {
+        box.innerHTML = [
+          '<div class="summary">',
+            '<p style="color:#9aa4c8;margin:0;">' + escapeHtml(L.passedBlocks) + ' <strong>' + s.answered + '</strong> ' + escapeHtml(L.of) + ' ' + s.total + '</p>',
+            '<p style="color:#9aa4c8;margin:8px 0 0 0;">' + escapeHtml(L.correctInPart1) + ' <strong>' + s.autoCorrect + '</strong> ' + escapeHtml(L.of) + ' ' + s.autoTotal + '</p>',
+            '<p style="color:#9aa4c8;margin:8px 0 0 0;">' + escapeHtml(L.primaryPart1) + ' <strong>' + s.autoScore + '</strong> ' + escapeHtml(L.of) + ' ' + s.autoMax + '</p>',
+            '<p style="color:#9aa4c8;margin:8px 0 0 0;">' + escapeHtml(L.selfCheckPart2) + ' <strong>' + s.essaySelfScore + '</strong> ' + escapeHtml(L.of) + ' ' + s.essayMax + '</p>',
+            '<p style="color:#9aa4c8;margin:8px 0 0 0;">' + escapeHtml(L.totalWithSelf) + ' <strong>' + totalSelf + '</strong> ' + escapeHtml(L.of) + ' ' + TOTAL_MAX_PRIMARY + '</p>',
+            '<p style="color:#9aa4c8;margin:8px 0 0 0;font-size:14px;">' + escapeHtml(L.answerAllBlocks) + '</p>',
+          '</div>'
+        ].join("");
+        return;
+      }
+
+      const percent = s.autoMax ? Math.round((s.autoScore / s.autoMax) * 100) : 0;
+      let verdict = percent >= 85 ? L.verdictExcellent : percent >= 60 ? L.verdictGood : L.verdictNeed;
+
+      box.innerHTML = [
+        '<div class="summary">',
+          '<div class="score">' + s.autoScore + '/' + s.autoMax + '</div>',
+          '<p style="margin:8px 0;">' + escapeHtml(verdict) + '</p>',
+          '<p style="color:#9aa4c8;margin:0;">' + escapeHtml(L.correctPart1Pct) + ' ' + percent + '%</p>',
+          '<p style="color:#9aa4c8;margin:8px 0 0 0;">' + escapeHtml(L.selfCheckPart2) + ' <strong>' + s.essaySelfScore + '</strong> ' + escapeHtml(L.of) + ' ' + s.essayMax + '</p>',
+          '<p style="color:#9aa4c8;margin:8px 0 0 0;">' + escapeHtml(L.totalPrimary) + ' <strong>' + totalSelf + '</strong> ' + escapeHtml(L.of) + ' ' + TOTAL_MAX_PRIMARY + '</p>',
+          '<p class="note" style="margin-top:10px;">' + escapeHtml(L.noteSelfCheck) + '</p>',
+        '</div>'
+      ].join("");
+    }
+
+    function resetAll() {
+      if (!confirm(loc("confirmReset"))) return;
+      savedAnswers = {};
+      checklistState = {};
+      renderChecklist();
+      renderPlan();
+      renderQuiz();
+    }
+
+    function copyPhone() {
+      const phone = "89202275676";
+      const status = document.getElementById("copyStatus");
+      const showCopied = function () {
+        status.textContent = loc("copied");
+        setTimeout(function () { status.textContent = ""; }, 2500);
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(phone).then(showCopied).catch(function () { fallbackCopy(phone, showCopied); });
+      } else {
+        fallbackCopy(phone, showCopied);
+      }
+    }
+
+    function fallbackCopy(text, callback) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try { document.execCommand("copy"); callback(); }
+      catch (e) { alert(loc("copyError") + text); }
+      document.body.removeChild(textarea);
+    }
+
+    // ============================================================
+    // ТАЙМЕР
+    // ============================================================
+    let timerTotal = 210 * 60;
+    let timerRemaining = timerTotal;
+    let timerInterval = null;
+    let timerRunning = false;
+
+    function formatTime(sec) {
+      const h = Math.floor(sec / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      return [h, m, s].map(function (v) { return String(v).padStart(2, "0"); }).join(":");
+    }
+
+    function updateTimerDisplay() {
+      const display = document.getElementById("timerDisplay");
+      const widget = document.getElementById("timerWidget");
+      display.textContent = formatTime(timerRemaining);
+      widget.classList.toggle("warning", timerRemaining <= 300 && timerRemaining > 60);
+      widget.classList.toggle("danger", timerRemaining <= 60);
+    }
+
+    function updateTimerButton() {
+      const btn = document.getElementById("timerToggle");
+      btn.textContent = timerRunning ? "⏸" : "▶";
+    }
+
+    function stopTimer() {
+      timerRunning = false;
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+      updateTimerButton();
+    }
+
+    function startTimer() {
+      if (timerRunning || timerRemaining <= 0) return;
+      timerRunning = true;
+      timerInterval = setInterval(function () {
+        if (timerRemaining > 0) { timerRemaining--; updateTimerDisplay(); }
+        if (timerRemaining === 0) { stopTimer(); alert(loc("timeUp")); }
+      }, 1000);
+      updateTimerButton();
+    }
+
+    function toggleTimer() { if (timerRunning) stopTimer(); else startTimer(); }
+
+    function resetTimer() {
+      stopTimer();
+      timerRemaining = timerTotal;
+      updateTimerDisplay();
+    }
+
+    function updateTimerLabels() {
+      const preset = document.getElementById("timerPreset");
+      const presets = [
+        { seconds: 210 * 60, label: loc("timerExam") },
+        { seconds: 60 * 60, label: loc("timerPractice") },
+        { seconds: 30 * 60, label: loc("timerSprint") }
+      ];
+      preset.innerHTML = presets.map(function (p) {
+        return '<option value="' + p.seconds + '">' + escapeHtml(p.label) + '</option>';
+      }).join("");
+      preset.value = String(210 * 60);
+      timerTotal = 210 * 60;
+      timerRemaining = timerTotal;
+      updateTimerButton();
+      updateTimerDisplay();
+    }
+
+    // ============================================================
+    // ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА
+    // ============================================================
+    function setLang(lang) {
+      if (lang === currentLang) return;
+      currentLang = lang;
+      document.querySelectorAll(".lang-option").forEach(function (sp) {
+        sp.classList.toggle("active", sp.dataset.lang === lang);
+      });
+      savedAnswers = {};
+      checklistState = {};
+      applyUIText();
+      renderAll();
+      updateTimerLabels();
+    }
+
+    function renderAll() {
+      renderCards("structureGrid", STRUCTURE_CARDS[currentLang]);
+      renderCards("changesGrid", CHANGES_CARDS[currentLang]);
+      renderCards("criteriaGrid", CRITERIA_CARDS[currentLang]);
+      renderChecklist();
+      renderPlan();
+      renderQuiz();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      applyUIText();
+      renderAll();
+      updateTimerLabels();
+      updateTimerDisplay();
+
+      document.getElementById("langToggle").addEventListener("click", function () {
+        setLang(currentLang === "ru" ? "en" : "ru");
+      });
+
+      document.getElementById("timerToggle").addEventListener("click", toggleTimer);
+      document.getElementById("timerReset").addEventListener("click", resetTimer);
+
+      document.getElementById("timerPreset").addEventListener("change", function (e) {
+        timerTotal = parseInt(e.target.value, 10);
+        resetTimer();
+      });
+
+      document.getElementById("checklistUl").addEventListener("change", function (e) {
+        if (e.target.matches("input[type='checkbox']")) {
+          const key = e.target.dataset.key;
+          checklistState[key] = e.target.checked;
+          const li = e.target.closest(".check-item");
+          if (li) li.classList.toggle("done", e.target.checked);
+          updateStats();
+        }
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter") return;
+        const active = document.activeElement;
+        if (!active || !active.classList.contains("answer-input")) return;
+        const match = active.id.match(/^input-(\d+)$/);
+        if (match) checkAuto(parseInt(match[1], 10));
+      });
+    });
+  </script>
+</body>
+</html>
